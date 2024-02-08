@@ -5,22 +5,36 @@ This Spring Boot application is a server for receiving stock data using endpoint
 
 ## ⭐ Features
 - Stock prices history from MOEX ISS (https://www.moex.com/a2193)
+- Historic candles from AlphaVantage (https://www.alphavantage.co/)
 
 ## 💻 Usage
-### Get historic candles from MOEX ISS 
+### 1. Historic candles from MOEX ISS 
 Server endpoint:
 ```java
-GET /stocks/[ticker]/history
+GET /moex/shares/[ticker]/history
 ```
 Request parameters:
 * `ticker` - stock ticker
 * `candlesize` - candle time period. Possible values: 1 (1 minute), 10 (10 minutes), 60 (1 hour), 24 (1 day), 7 (1 week), 31 (1 month) or 4 (1 quarter)
-* `startDate` - start date for receiving candles
-* `endDate` - end date for receiving candles
+* `startdate` - start date for receiving candles
+* `enddate` - end date for receiving candles
+
+### 2. Historic candles from AlphaVantage
+Server endpoint:
+```java
+GET /global/shares/[ticker]/history
+```
+Candles can be received for a whole month
+Request parameters:
+* `ticker` - stock ticker
+* `candlesize` - candle time period. Possible values: 1 (1 minute), 10 (10 minutes), 60 (1 hour), 24 (1 day), 7 (1 week), 31 (1 month) or 4 (1 quarter)
+* `startdate` - first day of the initial month for which candles will be requested
+* `enddate` - first day of the last month for which candles will be requested
+* `apikey` - API key from AlphaVantage
 
 Example of request:
 ```java
-GET /stocks/SBER/history?candlesize=60&startDate=2024-01-22&endDate=2024-02-02
+GET /global/shares/IBM/history?candlesize=60&startdate=2023-03-01&enddate=2023-04-01&apikey=token
 ```
 ## 🛠️ Technology stack
 - Java 17 
