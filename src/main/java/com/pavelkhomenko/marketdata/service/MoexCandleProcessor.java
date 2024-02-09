@@ -30,48 +30,39 @@ public class MoexCandleProcessor {
                 .get("candles").getAsJsonObject()
                 .get("data").getAsJsonArray();
     }
-    private Set<Candle> candlesSetFromJson(String ticker, int interval, LocalDate start, LocalDate end) {
-        JsonArray candlesJson = getCandlesJson(ticker, interval, start, end);
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
-        Type listType = new TypeToken<List<String>>() {}.getType();
-        Set<Candle> candles = new TreeSet<>((candle1, candle2) -> candle1.getStartDateTime()
-                .isBefore(candle2.getStartDateTime()) ? -1 :
-                candle1.getStartDateTime().isEqual(candle2.getStartDateTime()) ? 0 : 1);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        for (JsonElement elem: candlesJson){
-            List<String> arr = gson.fromJson(elem, listType);
-            try {
-                candles.add(Candle.builder()
-                        .startDateTime(LocalDateTime.parse(arr.get(6), formatter))
-                        .open(Float.parseFloat(arr.get(0)))
-                        .max(Float.parseFloat(arr.get(2)))
-                        .min(Float.parseFloat(arr.get(3)))
-                        .close(Float.parseFloat(arr.get(1)))
-                        .volume(Float.parseFloat(arr.get(5)))
-                        .build());
-            } catch (NullPointerException e) {
-                log.warn("No data for the period {}", arr.get(1));
-            }
-        }
-        return candles;
-    }
 
     /* This method allows to get candles for any interval
     * the interval variable is responsible for the candle size.
     * Candle size - 1 (1 minute), 10 (10 minutes), 60 (1 hour),
     * 24 (1 day), 7 (1 week), 31 (1 month) or 4 (1 quarter)*/
-    public Set<Candle> collectAllCandlesSet(String ticker, int interval, LocalDate start, LocalDate end){
+    public Set<Candle> getCandleSet(String ticker, int interval, LocalDate start, LocalDate end){
         var periods = getTimeIntervals(start, end);
         Set<Candle> stockCandles = new TreeSet<>((candle1, candle2) -> candle1.getStartDateTime()
                 .isBefore(candle2.getStartDateTime()) ? -1 :
                 candle1.getStartDateTime().isEqual(candle2.getStartDateTime()) ? 0 : 1);
+        Type listType = new TypeToken<List<String>>() {}.getType();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         for (List<String> period: periods) {
-            stockCandles.addAll(candlesSetFromJson(ticker,
-                    interval,
-                    LocalDate.parse(period.get(0)),
-                    LocalDate.parse(period.get(1))));
+            JsonArray candlesJson = getCandlesJson(ticker, interval, LocalDate.parse(period.get(0)),
+                    LocalDate.parse(period.get(1)));
+            Gson gson = new GsonBuilder()
+                    .setLenient()
+                    .create();
+            for (JsonElement elem: candlesJson){
+                List<String> arr = gson.fromJson(elem, listType);
+                try {
+                    stockCandles.add(Candle.builder()
+                            .startDateTime(LocalDateTime.parse(arr.get(6), formatter))
+                            .open(Float.parseFloat(arr.get(0)))
+                            .max(Float.parseFloat(arr.get(2)))
+                            .min(Float.parseFloat(arr.get(3)))
+                            .close(Float.parseFloat(arr.get(1)))
+                            .volume(Float.parseFloat(arr.get(5)))
+                            .build());
+                } catch (NullPointerException e) {
+                    log.warn("No data for the period {}", arr.get(1));
+                }
+            }
         }
         return stockCandles;
     }

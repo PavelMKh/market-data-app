@@ -21,7 +21,7 @@ public class AlphaVantageController {
                                          @RequestParam("enddate") @PastOrPresent LocalDate endDate,
                                          @RequestParam("apikey") String apikey,
                                          @PathVariable @NotBlank @NotEmpty String ticker) {
-        return new AlphaVantageCandleProcessor().collectAllCandlesSet(ticker, interval, apikey, startDate, endDate);
+        return new AlphaVantageCandleProcessor().getCandleSet(ticker, interval, apikey, startDate, endDate);
     }
 
 

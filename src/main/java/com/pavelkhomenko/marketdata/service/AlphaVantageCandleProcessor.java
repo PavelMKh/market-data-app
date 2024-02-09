@@ -30,37 +30,28 @@ public class AlphaVantageCandleProcessor {
                 .get(candlesKey).getAsJsonObject();
     }
 
-    private Set<Candle> candlesSetFromJson(String ticker, String apikey, String month,
-                                           int interval) {
-        JsonObject candlesJson = getCandlesJson(ticker, apikey, month, interval);
-        Set<Candle> candles = new TreeSet<>((candle1, candle2) -> candle1.getStartDateTime()
-                .isBefore(candle2.getStartDateTime()) ? -1 :
-                candle1.getStartDateTime().isEqual(candle2.getStartDateTime()) ? 0 : 1);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        for (String key: candlesJson.keySet()){
-            try {
-                candles.add(Candle.builder()
-                        .startDateTime(LocalDateTime.parse(key, formatter))
-                        .open(Float.parseFloat(candlesJson.get(key).getAsJsonObject().get("1. open").toString().replace("\"", "")))
-                        .max(Float.parseFloat(candlesJson.get(key).getAsJsonObject().get("2. high").toString().replace("\"", "")))
-                        .min(Float.parseFloat(candlesJson.get(key).getAsJsonObject().get("3. low").toString().replace("\"", "")))
-                        .close(Float.parseFloat(candlesJson.get(key).getAsJsonObject().get("4. close").toString().replace("\"", "")))
-                        .volume(Float.parseFloat(candlesJson.get(key).getAsJsonObject().get("5. volume").toString().replace("\"", "")))
-                        .build());
-            } catch (NullPointerException e) {
-                log.warn("No data for the period {}", key);
-            }
-        }
-        return candles;
-    }
-
-    public Set<Candle> collectAllCandlesSet(String ticker, int interval, String apikey, LocalDate start, LocalDate end) {
-        var periods = getTimeIntervals(start, end);
+    public Set<Candle> getCandleSet(String ticker, int interval, String apikey, LocalDate start, LocalDate end) {
+        List<String> periods = getTimeIntervals(start, end);
         Set<Candle> stockCandles = new TreeSet<>((candle1, candle2) -> candle1.getStartDateTime()
                 .isBefore(candle2.getStartDateTime()) ? -1 :
                 candle1.getStartDateTime().isEqual(candle2.getStartDateTime()) ? 0 : 1);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         for (String period: periods) {
-            stockCandles.addAll(candlesSetFromJson(ticker, apikey, period, interval));
+            JsonObject candlesJson = getCandlesJson(ticker, apikey, period, interval);
+            for (String key : candlesJson.keySet()) {
+                try {
+                    stockCandles.add(Candle.builder()
+                            .startDateTime(LocalDateTime.parse(key, formatter))
+                            .open(Float.parseFloat(candlesJson.get(key).getAsJsonObject().get("1. open").toString().replace("\"", "")))
+                            .max(Float.parseFloat(candlesJson.get(key).getAsJsonObject().get("2. high").toString().replace("\"", "")))
+                            .min(Float.parseFloat(candlesJson.get(key).getAsJsonObject().get("3. low").toString().replace("\"", "")))
+                            .close(Float.parseFloat(candlesJson.get(key).getAsJsonObject().get("4. close").toString().replace("\"", "")))
+                            .volume(Float.parseFloat(candlesJson.get(key).getAsJsonObject().get("5. volume").toString().replace("\"", "")))
+                            .build());
+                } catch (NullPointerException e) {
+                    log.warn("No data for the period {}", key);
+                }
+            }
         }
         return stockCandles;
     }

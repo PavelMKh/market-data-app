@@ -20,6 +20,6 @@ public class MoexController {
                                           @RequestParam("startdate") @PastOrPresent LocalDate start,
                                           @RequestParam("enddate") @PastOrPresent LocalDate end,
                                           @PathVariable @NotBlank @NotEmpty String ticker) {
-        return new MoexCandleProcessor().collectAllCandlesSet(ticker, interval, start, end);
+        return new MoexCandleProcessor().getCandleSet(ticker, interval, start, end);
     }
 }
