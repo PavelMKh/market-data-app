@@ -1,12 +1,12 @@
 package com.pavelkhomenko.marketdata.service;
 
-import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.pavelkhomenko.marketdata.dto.Candle;
 import com.pavelkhomenko.marketdata.httpclients.HttpRequestClient;
 import lombok.extern.slf4j.Slf4j;
 
-import java.lang.reflect.Type;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,50 +19,42 @@ import java.util.TreeSet;
 
 @Slf4j
 public class MoexCandleProcessor {
-    private JsonArray getCandlesJson(String ticker, int interval, LocalDate start, LocalDate end) {
+    private String getCandlesJson(String ticker, int interval, LocalDate start, LocalDate end) {
         URI candlesUri = URI.create("https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities/" +
                 ticker + "/candles.json?iss.json=compact&interval=" + interval +
                 "&from=" + start + "&till=" + end);
         HttpRequestClient client = new HttpRequestClient();
-        String responseBody = client.getResponseBody(candlesUri);
-        JsonElement jsonElement = JsonParser.parseString(responseBody);
-        return jsonElement.getAsJsonObject()
-                .get("candles").getAsJsonObject()
-                .get("data").getAsJsonArray();
+        return client.getResponseBody(candlesUri);
     }
 
     /* This method allows to get candles for any interval
     * the interval variable is responsible for the candle size.
     * Candle size - 1 (1 minute), 10 (10 minutes), 60 (1 hour),
     * 24 (1 day), 7 (1 week), 31 (1 month) or 4 (1 quarter)*/
-    public Set<Candle> getCandleSet(String ticker, int interval, LocalDate start, LocalDate end){
+    public Set<Candle> getCandleSet(String ticker, int interval, LocalDate start, LocalDate end) throws JsonProcessingException {
         var periods = getTimeIntervals(start, end);
         Set<Candle> stockCandles = new TreeSet<>((candle1, candle2) -> candle1.getStartDateTime()
                 .isBefore(candle2.getStartDateTime()) ? -1 :
                 candle1.getStartDateTime().isEqual(candle2.getStartDateTime()) ? 0 : 1);
-        Type listType = new TypeToken<List<String>>() {}.getType();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        ObjectMapper objectMapper = new ObjectMapper();
         for (List<String> period: periods) {
-            JsonArray candlesJson = getCandlesJson(ticker, interval, LocalDate.parse(period.get(0)),
-                    LocalDate.parse(period.get(1)));
-            Gson gson = new GsonBuilder()
-                    .setLenient()
-                    .create();
-            for (JsonElement elem: candlesJson){
-                List<String> arr = gson.fromJson(elem, listType);
+            ArrayNode candlesJson = (ArrayNode) objectMapper.readTree(getCandlesJson(ticker, interval, LocalDate.parse(period.get(0)),
+                        LocalDate.parse(period.get(1)))).get("candles").get("data");
+            candlesJson.forEach(element -> {
                 try {
                     stockCandles.add(Candle.builder()
-                            .startDateTime(LocalDateTime.parse(arr.get(6), formatter))
-                            .open(Float.parseFloat(arr.get(0)))
-                            .max(Float.parseFloat(arr.get(2)))
-                            .min(Float.parseFloat(arr.get(3)))
-                            .close(Float.parseFloat(arr.get(1)))
-                            .volume(Float.parseFloat(arr.get(5)))
+                            .startDateTime(LocalDateTime.parse(element.get(6).asText(), formatter))
+                            .open(Float.parseFloat(element.get(0).asText()))
+                            .max(Float.parseFloat(element.get(2).asText()))
+                            .min(Float.parseFloat(element.get(3).asText()))
+                            .close(Float.parseFloat(element.get(1).asText()))
+                            .volume(Float.parseFloat(element.get(5).asText()))
                             .build());
                 } catch (NullPointerException e) {
-                    log.warn("No data for the period {}", arr.get(1));
+                    log.warn("No data for the period {}", element.get(1));
                 }
-            }
+            });
         }
         return stockCandles;
     }

@@ -1,5 +1,6 @@
 package com.pavelkhomenko.marketdata.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.pavelkhomenko.marketdata.dto.Candle;
 import com.pavelkhomenko.marketdata.service.MoexCandleProcessor;
 import jakarta.validation.constraints.*;
@@ -19,7 +20,7 @@ public class MoexController {
     public Set<Candle> getCandlesByTicker(@RequestParam("candlesize") int interval,
                                           @RequestParam("startdate") @PastOrPresent LocalDate start,
                                           @RequestParam("enddate") @PastOrPresent LocalDate end,
-                                          @PathVariable @NotBlank @NotEmpty String ticker) {
+                                          @PathVariable @NotBlank @NotEmpty String ticker) throws JsonProcessingException {
         return new MoexCandleProcessor().getCandleSet(ticker, interval, start, end);
     }
 }

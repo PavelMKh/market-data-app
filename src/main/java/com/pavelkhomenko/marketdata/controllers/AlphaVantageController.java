@@ -1,5 +1,6 @@
 package com.pavelkhomenko.marketdata.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.pavelkhomenko.marketdata.dto.Candle;
 import com.pavelkhomenko.marketdata.service.AlphaVantageCandleProcessor;
 import jakarta.validation.constraints.*;
@@ -20,7 +21,7 @@ public class AlphaVantageController {
                                          @RequestParam("startdate") @Past LocalDate startDate,
                                          @RequestParam("enddate") @PastOrPresent LocalDate endDate,
                                          @RequestParam("apikey") String apikey,
-                                         @PathVariable @NotBlank @NotEmpty String ticker) {
+                                         @PathVariable @NotBlank @NotEmpty String ticker) throws JsonProcessingException {
         return new AlphaVantageCandleProcessor().getCandleSet(ticker, interval, apikey, startDate, endDate);
     }
 
