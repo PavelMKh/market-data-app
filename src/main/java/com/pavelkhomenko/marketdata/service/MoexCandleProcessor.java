@@ -5,7 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.pavelkhomenko.marketdata.dto.Candle;
 import com.pavelkhomenko.marketdata.httpclients.HttpRequestClient;
+import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.net.URI;
 import java.time.LocalDate;
@@ -17,13 +20,18 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+@Service
 @Slf4j
+@RequiredArgsConstructor
 public class MoexCandleProcessor {
+
+    @NotNull
+    private final HttpRequestClient client;
+
     private String getCandlesJson(String ticker, int interval, LocalDate start, LocalDate end) {
         URI candlesUri = URI.create("https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities/" +
                 ticker + "/candles.json?iss.json=compact&interval=" + interval +
                 "&from=" + start + "&till=" + end);
-        HttpRequestClient client = new HttpRequestClient();
         return client.getResponseBody(candlesUri);
     }
 

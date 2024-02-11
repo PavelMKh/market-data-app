@@ -1,6 +1,7 @@
 package com.pavelkhomenko.marketdata.httpclients;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URI;
@@ -8,6 +9,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+@Component
 @Slf4j
 public class HttpRequestClient {
     public String getResponseBody(URI uri) {

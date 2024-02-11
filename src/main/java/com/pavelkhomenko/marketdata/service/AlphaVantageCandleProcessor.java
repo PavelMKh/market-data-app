@@ -5,7 +5,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pavelkhomenko.marketdata.dto.Candle;
 import com.pavelkhomenko.marketdata.httpclients.HttpRequestClient;
+import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.net.URI;
 import java.time.LocalDate;
@@ -13,13 +16,17 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+@Service
 @Slf4j
+@RequiredArgsConstructor
 public class AlphaVantageCandleProcessor {
+
+    @NotNull
+    private final HttpRequestClient client;
     private String getCandlesJson(String ticker, String apikey, String month,
                                       int interval) {
         URI uri = URI.create("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" +
                 ticker + "&interval=" + interval + "min&month=" + month + "&outputsize=full&apikey="+apikey);
-        HttpRequestClient client = new HttpRequestClient();
         return client.getResponseBody(uri);
     }
 
