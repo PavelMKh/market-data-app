@@ -23,6 +23,7 @@ public class AlphaVantageCandleProcessor {
 
     @NotNull
     private final HttpRequestClient client;
+
     private String getCandlesJson(String ticker, String apikey, String month,
                                       int interval) {
         URI uri = URI.create("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" +

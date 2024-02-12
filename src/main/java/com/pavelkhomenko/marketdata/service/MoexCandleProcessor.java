@@ -27,7 +27,6 @@ public class MoexCandleProcessor {
 
     @NotNull
     private final HttpRequestClient client;
-
     private String getCandlesJson(String ticker, int interval, LocalDate start, LocalDate end) {
         URI candlesUri = URI.create("https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities/" +
                 ticker + "/candles.json?iss.json=compact&interval=" + interval +
@@ -35,10 +34,6 @@ public class MoexCandleProcessor {
         return client.getResponseBody(candlesUri);
     }
 
-    /* This method allows to get candles for any interval
-    * the interval variable is responsible for the candle size.
-    * Candle size - 1 (1 minute), 10 (10 minutes), 60 (1 hour),
-    * 24 (1 day), 7 (1 week), 31 (1 month) or 4 (1 quarter)*/
     public Set<Candle> getCandleSet(String ticker, int interval, LocalDate start, LocalDate end) throws JsonProcessingException {
         var periods = getTimeIntervals(start, end);
         Set<Candle> stockCandles = new TreeSet<>((candle1, candle2) -> candle1.getStartDateTime()
@@ -50,8 +45,7 @@ public class MoexCandleProcessor {
             ArrayNode candlesJson = (ArrayNode) objectMapper.readTree(getCandlesJson(ticker, interval, LocalDate.parse(period.get(0)),
                         LocalDate.parse(period.get(1)))).get("candles").get("data");
             candlesJson.forEach(element -> {
-                try {
-                    stockCandles.add(Candle.builder()
+                stockCandles.add(Candle.builder()
                             .startDateTime(LocalDateTime.parse(element.get(6).asText(), formatter))
                             .open(Float.parseFloat(element.get(0).asText()))
                             .max(Float.parseFloat(element.get(2).asText()))
@@ -59,9 +53,6 @@ public class MoexCandleProcessor {
                             .close(Float.parseFloat(element.get(1).asText()))
                             .volume(Float.parseFloat(element.get(5).asText()))
                             .build());
-                } catch (NullPointerException e) {
-                    log.warn("No data for the period {}", element.get(1));
-                }
             });
         }
         return stockCandles;
