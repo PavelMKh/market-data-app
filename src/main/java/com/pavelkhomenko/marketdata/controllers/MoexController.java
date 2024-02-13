@@ -1,6 +1,7 @@
 package com.pavelkhomenko.marketdata.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.pavelkhomenko.marketdata.aspects.LoggingAspect;
 import com.pavelkhomenko.marketdata.dto.Candle;
 import com.pavelkhomenko.marketdata.service.MoexCandleProcessor;
 import jakarta.validation.constraints.*;
@@ -22,6 +23,8 @@ import java.util.Set;
 public class MoexController {
     @NotNull
     private final MoexCandleProcessor requestProcessor;
+    @NotNull
+    private final LoggingAspect loggingAspect;
 
     @GetMapping("/shares/{ticker}/history")
     public Set<Candle> getCandlesByTicker(@RequestParam("candlesize") int interval,
