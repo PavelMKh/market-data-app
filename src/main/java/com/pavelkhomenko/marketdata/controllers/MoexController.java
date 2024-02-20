@@ -9,7 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 @RestController
 @RequestMapping("/moex")
@@ -20,10 +20,10 @@ public class MoexController {
     private final CandleHistoryService candleHistoryService;
 
     @GetMapping("/shares/{ticker}/history")
-    public Set<Candle> getCandlesByTicker(@RequestParam("candlesize") int interval,
-                                          @RequestParam("startdate") LocalDate start,
-                                          @RequestParam("enddate") LocalDate end,
-                                          @PathVariable String ticker) throws JsonProcessingException {
+    public List<Candle> getCandlesByTicker(@RequestParam("candlesize") int interval,
+                                           @RequestParam("startdate") LocalDate start,
+                                           @RequestParam("enddate") LocalDate end,
+                                           @PathVariable String ticker) throws JsonProcessingException {
         return candleHistoryService.getMoexCandles(ticker, interval, start, end);
     }
 }

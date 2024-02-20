@@ -13,12 +13,10 @@ import org.springframework.stereotype.Service;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -27,6 +25,7 @@ public class MoexCandleProcessor {
 
     @NotNull
     private final HttpRequestClient client;
+
     private String getCandlesJson(String ticker, int interval, LocalDate start, LocalDate end) {
         URI candlesUri = URI.create("https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities/" +
                 ticker + "/candles.json?iss.json=compact&interval=" + interval +
@@ -34,24 +33,28 @@ public class MoexCandleProcessor {
         return client.getResponseBody(candlesUri);
     }
 
-    public Set<Candle> getCandleSet(String ticker, int interval, LocalDate start, LocalDate end) throws JsonProcessingException {
+    public List<Candle> getCandleSet(String ticker, int interval, LocalDate start, LocalDate end) throws JsonProcessingException {
         var periods = getTimeIntervals(start, end);
-        Set<Candle> stockCandles = new TreeSet<>((candle1, candle2) -> candle1.getStartDateTime()
-                .isBefore(candle2.getStartDateTime()) ? -1 :
-                candle1.getStartDateTime().isEqual(candle2.getStartDateTime()) ? 0 : 1);
+        List<Candle> stockCandles = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         ObjectMapper objectMapper = new ObjectMapper();
+        ZoneOffset zoneOffset = ZoneOffset.of("+00:00");
         for (List<String> period: periods) {
             ArrayNode candlesJson = (ArrayNode) objectMapper.readTree(getCandlesJson(ticker, interval, LocalDate.parse(period.get(0)),
                         LocalDate.parse(period.get(1)))).get("candles").get("data");
             candlesJson.forEach(element -> {
                 stockCandles.add(Candle.builder()
-                            .startDateTime(LocalDateTime.parse(element.get(6).asText(), formatter))
+                            .startDateTime(Date.from(LocalDateTime.parse(element.get(6).asText(), formatter)
+                                    .toInstant(zoneOffset)))
                             .open(Float.parseFloat(element.get(0).asText()))
                             .max(Float.parseFloat(element.get(2).asText()))
                             .min(Float.parseFloat(element.get(3).asText()))
                             .close(Float.parseFloat(element.get(1).asText()))
                             .volume(Float.parseFloat(element.get(5).asText()))
+                            .source("MOEX")
+                            .interval(interval)
+                            .ticker(ticker)
+                            .id(LocalDateTime.parse(element.get(6).asText(), formatter)+ticker+interval)
                             .build());
             });
         }

@@ -1,0 +1,1252 @@
+[
+  {
+    "startDateTime": "2023-03-14T18:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 119.004,
+    "max": 119.02,
+    "min": 118.935,
+    "close": 118.973,
+    "volume": 351.0
+  },
+  {
+    "startDateTime": "2023-03-14T17:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 119.071,
+    "max": 119.154,
+    "min": 119.011,
+    "close": 119.116,
+    "volume": 335.0
+  },
+  {
+    "startDateTime": "2023-03-14T16:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 119.138,
+    "max": 119.336,
+    "min": 118.916,
+    "close": 119.279,
+    "volume": 1219184.0
+  },
+  {
+    "startDateTime": "2023-03-14T15:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 118.135,
+    "max": 119.25,
+    "min": 117.693,
+    "close": 119.078,
+    "volume": 992860.0
+  },
+  {
+    "startDateTime": "2023-03-14T14:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 118.354,
+    "max": 118.542,
+    "min": 117.798,
+    "close": 118.113,
+    "volume": 428169.0
+  },
+  {
+    "startDateTime": "2023-03-14T13:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 119.243,
+    "max": 119.403,
+    "min": 118.075,
+    "close": 118.323,
+    "volume": 690642.0
+  },
+  {
+    "startDateTime": "2023-03-14T12:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 119.721,
+    "max": 120.072,
+    "min": 119.136,
+    "close": 119.231,
+    "volume": 399935.0
+  },
+  {
+    "startDateTime": "2023-03-14T11:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 120.342,
+    "max": 120.846,
+    "min": 119.594,
+    "close": 119.689,
+    "volume": 471656.0
+  },
+  {
+    "startDateTime": "2023-03-14T10:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 120.256,
+    "max": 120.636,
+    "min": 119.881,
+    "close": 120.311,
+    "volume": 1037049.0
+  },
+  {
+    "startDateTime": "2023-03-14T09:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 120.906,
+    "max": 121.353,
+    "min": 119.881,
+    "close": 120.215,
+    "volume": 597864.0
+  },
+  {
+    "startDateTime": "2023-03-14T08:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 120.677,
+    "max": 120.961,
+    "min": 120.196,
+    "close": 120.884,
+    "volume": 2146.0
+  },
+  {
+    "startDateTime": "2023-03-14T07:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 120.62,
+    "max": 120.636,
+    "min": 120.559,
+    "close": 120.597,
+    "volume": 1943.0
+  },
+  {
+    "startDateTime": "2023-03-13T19:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 120.151,
+    "max": 120.168,
+    "min": 120.091,
+    "close": 120.129,
+    "volume": 482.0
+  },
+  {
+    "startDateTime": "2023-03-13T18:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 120.027,
+    "max": 120.139,
+    "min": 119.967,
+    "close": 120.1,
+    "volume": 1844.0
+  },
+  {
+    "startDateTime": "2023-03-13T17:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 120.59,
+    "max": 120.607,
+    "min": 120.53,
+    "close": 120.568,
+    "volume": 365.0
+  },
+  {
+    "startDateTime": "2023-03-13T16:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 120.027,
+    "max": 120.072,
+    "min": 119.632,
+    "close": 120.033,
+    "volume": 657503.0
+  },
+  {
+    "startDateTime": "2023-03-13T15:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 120.601,
+    "max": 120.76,
+    "min": 119.518,
+    "close": 120.005,
+    "volume": 1002078.0
+  },
+  {
+    "startDateTime": "2023-03-13T14:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 120.051,
+    "max": 120.865,
+    "min": 119.967,
+    "close": 120.588,
+    "volume": 513756.0
+  },
+  {
+    "startDateTime": "2023-03-13T13:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 119.874,
+    "max": 120.206,
+    "min": 119.465,
+    "close": 120.043,
+    "volume": 379269.0
+  },
+  {
+    "startDateTime": "2023-03-13T12:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 121.203,
+    "max": 121.592,
+    "min": 119.728,
+    "close": 119.842,
+    "volume": 656556.0
+  },
+  {
+    "startDateTime": "2023-03-13T11:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.273,
+    "max": 122.538,
+    "min": 120.693,
+    "close": 121.142,
+    "volume": 637104.0
+  },
+  {
+    "startDateTime": "2023-03-13T10:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 121.92,
+    "max": 122.337,
+    "min": 120.827,
+    "close": 122.241,
+    "volume": 896773.0
+  },
+  {
+    "startDateTime": "2023-03-13T09:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 119.568,
+    "max": 122.443,
+    "min": 119.269,
+    "close": 121.916,
+    "volume": 1012782.0
+  },
+  {
+    "startDateTime": "2023-03-13T08:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 120.151,
+    "max": 120.168,
+    "min": 119.219,
+    "close": 119.642,
+    "volume": 2299.0
+  },
+  {
+    "startDateTime": "2023-03-13T07:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 120.151,
+    "max": 120.168,
+    "min": 120.091,
+    "close": 120.129,
+    "volume": 110.0
+  },
+  {
+    "startDateTime": "2023-03-13T06:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 119.903,
+    "max": 119.919,
+    "min": 119.843,
+    "close": 119.881,
+    "volume": 148.0
+  },
+  {
+    "startDateTime": "2023-03-13T04:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 121.04,
+    "max": 121.057,
+    "min": 120.979,
+    "close": 121.018,
+    "volume": 100.0
+  },
+  {
+    "startDateTime": "2023-03-10T19:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 120.285,
+    "max": 120.445,
+    "min": 120.225,
+    "close": 120.406,
+    "volume": 200.0
+  },
+  {
+    "startDateTime": "2023-03-10T17:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 119.903,
+    "max": 119.919,
+    "min": 119.843,
+    "close": 119.881,
+    "volume": 1877.0
+  },
+  {
+    "startDateTime": "2023-03-10T16:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 119.893,
+    "max": 119.967,
+    "min": 119.604,
+    "close": 119.642,
+    "volume": 799481.0
+  },
+  {
+    "startDateTime": "2023-03-10T15:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 120.696,
+    "max": 120.751,
+    "min": 119.671,
+    "close": 119.89,
+    "volume": 1213741.0
+  },
+  {
+    "startDateTime": "2023-03-10T14:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 119.855,
+    "max": 120.913,
+    "min": 119.795,
+    "close": 120.702,
+    "volume": 332387.0
+  },
+  {
+    "startDateTime": "2023-03-10T13:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 120.515,
+    "max": 120.636,
+    "min": 119.537,
+    "close": 119.833,
+    "volume": 390822.0
+  },
+  {
+    "startDateTime": "2023-03-10T12:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 120.868,
+    "max": 121.229,
+    "min": 120.444,
+    "close": 120.511,
+    "volume": 309730.0
+  },
+  {
+    "startDateTime": "2023-03-10T11:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 121.614,
+    "max": 121.63,
+    "min": 120.635,
+    "close": 120.846,
+    "volume": 299368.0
+  },
+  {
+    "startDateTime": "2023-03-10T10:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 121.002,
+    "max": 121.678,
+    "min": 120.779,
+    "close": 121.601,
+    "volume": 545676.0
+  },
+  {
+    "startDateTime": "2023-03-10T09:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 120.887,
+    "max": 121.869,
+    "min": 120.177,
+    "close": 121.008,
+    "volume": 580782.0
+  },
+  {
+    "startDateTime": "2023-03-10T08:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 120.801,
+    "max": 120.923,
+    "min": 120.015,
+    "close": 120.884,
+    "volume": 1470.0
+  },
+  {
+    "startDateTime": "2023-03-10T07:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 120.801,
+    "max": 120.818,
+    "min": 120.741,
+    "close": 120.779,
+    "volume": 158.0
+  },
+  {
+    "startDateTime": "2023-03-10T05:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 120.429,
+    "max": 120.445,
+    "min": 120.368,
+    "close": 120.406,
+    "volume": 124.0
+  },
+  {
+    "startDateTime": "2023-03-10T04:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 120.591,
+    "max": 120.607,
+    "min": 120.53,
+    "close": 120.569,
+    "volume": 100.0
+  },
+  {
+    "startDateTime": "2023-03-09T18:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 120.39,
+    "max": 120.407,
+    "min": 120.33,
+    "close": 120.368,
+    "volume": 100.0
+  },
+  {
+    "startDateTime": "2023-03-09T17:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 120.581,
+    "max": 120.598,
+    "min": 120.368,
+    "close": 120.406,
+    "volume": 4017.0
+  },
+  {
+    "startDateTime": "2023-03-09T16:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 120.581,
+    "max": 120.636,
+    "min": 120.349,
+    "close": 120.521,
+    "volume": 517018.0
+  },
+  {
+    "startDateTime": "2023-03-09T15:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 121.265,
+    "max": 121.343,
+    "min": 120.349,
+    "close": 120.569,
+    "volume": 568173.0
+  },
+  {
+    "startDateTime": "2023-03-09T14:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 121.958,
+    "max": 121.974,
+    "min": 121.19,
+    "close": 121.238,
+    "volume": 274828.0
+  },
+  {
+    "startDateTime": "2023-03-09T13:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.197,
+    "max": 122.309,
+    "min": 121.763,
+    "close": 121.926,
+    "volume": 207131.0
+  },
+  {
+    "startDateTime": "2023-03-09T12:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.397,
+    "max": 122.519,
+    "min": 122.081,
+    "close": 122.184,
+    "volume": 193701.0
+  },
+  {
+    "startDateTime": "2023-03-09T11:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.598,
+    "max": 122.662,
+    "min": 122.307,
+    "close": 122.375,
+    "volume": 141858.0
+  },
+  {
+    "startDateTime": "2023-03-09T10:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.46,
+    "max": 122.863,
+    "min": 122.131,
+    "close": 122.575,
+    "volume": 372509.0
+  },
+  {
+    "startDateTime": "2023-03-09T09:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.627,
+    "max": 122.815,
+    "min": 122.221,
+    "close": 122.437,
+    "volume": 276611.0
+  },
+  {
+    "startDateTime": "2023-03-09T08:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.493,
+    "max": 122.51,
+    "min": 122.431,
+    "close": 122.47,
+    "volume": 100.0
+  },
+  {
+    "startDateTime": "2023-03-09T07:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.417,
+    "max": 122.433,
+    "min": 122.355,
+    "close": 122.394,
+    "volume": 108.0
+  },
+  {
+    "startDateTime": "2023-03-09T06:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.34,
+    "max": 122.357,
+    "min": 122.279,
+    "close": 122.317,
+    "volume": 180.0
+  },
+  {
+    "startDateTime": "2023-03-09T05:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.34,
+    "max": 122.357,
+    "min": 122.279,
+    "close": 122.317,
+    "volume": 100.0
+  },
+  {
+    "startDateTime": "2023-03-08T18:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.426,
+    "max": 122.443,
+    "min": 122.365,
+    "close": 122.403,
+    "volume": 194.0
+  },
+  {
+    "startDateTime": "2023-03-08T17:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.388,
+    "max": 122.586,
+    "min": 122.326,
+    "close": 122.365,
+    "volume": 1865.0
+  },
+  {
+    "startDateTime": "2023-03-08T16:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.388,
+    "max": 122.653,
+    "min": 122.279,
+    "close": 122.556,
+    "volume": 367246.0
+  },
+  {
+    "startDateTime": "2023-03-08T15:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.025,
+    "max": 122.447,
+    "min": 121.844,
+    "close": 122.356,
+    "volume": 414369.0
+  },
+  {
+    "startDateTime": "2023-03-08T14:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.316,
+    "max": 122.476,
+    "min": 121.954,
+    "close": 122.012,
+    "volume": 210700.0
+  },
+  {
+    "startDateTime": "2023-03-08T13:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.569,
+    "max": 122.672,
+    "min": 122.135,
+    "close": 122.279,
+    "volume": 175774.0
+  },
+  {
+    "startDateTime": "2023-03-08T12:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.971,
+    "max": 123.054,
+    "min": 122.174,
+    "close": 122.537,
+    "volume": 157229.0
+  },
+  {
+    "startDateTime": "2023-03-08T11:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.569,
+    "max": 123.064,
+    "min": 122.436,
+    "close": 122.948,
+    "volume": 157898.0
+  },
+  {
+    "startDateTime": "2023-03-08T10:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.847,
+    "max": 123.035,
+    "min": 122.412,
+    "close": 122.542,
+    "volume": 220004.0
+  },
+  {
+    "startDateTime": "2023-03-08T09:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 123.105,
+    "max": 123.121,
+    "min": 122.546,
+    "close": 122.824,
+    "volume": 297303.0
+  },
+  {
+    "startDateTime": "2023-03-08T08:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.533,
+    "max": 122.55,
+    "min": 122.472,
+    "close": 122.511,
+    "volume": 100.0
+  },
+  {
+    "startDateTime": "2023-03-07T19:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.636,
+    "max": 122.653,
+    "min": 122.47,
+    "close": 122.508,
+    "volume": 1683.0
+  },
+  {
+    "startDateTime": "2023-03-07T18:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.627,
+    "max": 122.653,
+    "min": 122.565,
+    "close": 122.614,
+    "volume": 200.0
+  },
+  {
+    "startDateTime": "2023-03-07T16:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.579,
+    "max": 122.643,
+    "min": 122.517,
+    "close": 122.556,
+    "volume": 761704.0
+  },
+  {
+    "startDateTime": "2023-03-07T15:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.541,
+    "max": 122.882,
+    "min": 122.46,
+    "close": 122.547,
+    "volume": 557864.0
+  },
+  {
+    "startDateTime": "2023-03-07T14:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.703,
+    "max": 122.968,
+    "min": 122.47,
+    "close": 122.537,
+    "volume": 160870.0
+  },
+  {
+    "startDateTime": "2023-03-07T13:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 123.057,
+    "max": 123.102,
+    "min": 122.546,
+    "close": 122.69,
+    "volume": 186689.0
+  },
+  {
+    "startDateTime": "2023-03-07T12:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 123.019,
+    "max": 123.752,
+    "min": 122.938,
+    "close": 123.034,
+    "volume": 191549.0
+  },
+  {
+    "startDateTime": "2023-03-07T11:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 123.516,
+    "max": 123.695,
+    "min": 122.909,
+    "close": 122.996,
+    "volume": 230948.0
+  },
+  {
+    "startDateTime": "2023-03-07T10:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 124.471,
+    "max": 124.555,
+    "min": 123.435,
+    "close": 123.502,
+    "volume": 286257.0
+  },
+  {
+    "startDateTime": "2023-03-07T09:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 124.538,
+    "max": 124.67,
+    "min": 123.922,
+    "close": 124.463,
+    "volume": 249760.0
+  },
+  {
+    "startDateTime": "2023-03-07T07:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 124.634,
+    "max": 124.651,
+    "min": 124.571,
+    "close": 124.611,
+    "volume": 400.0
+  },
+  {
+    "startDateTime": "2023-03-06T17:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 124.443,
+    "max": 124.46,
+    "min": 124.199,
+    "close": 124.238,
+    "volume": 518.0
+  },
+  {
+    "startDateTime": "2023-03-06T16:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 124.433,
+    "max": 124.565,
+    "min": 124.094,
+    "close": 124.506,
+    "volume": 697448.0
+  },
+  {
+    "startDateTime": "2023-03-06T15:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 124.223,
+    "max": 124.526,
+    "min": 123.96,
+    "close": 124.42,
+    "volume": 396063.0
+  },
+  {
+    "startDateTime": "2023-03-06T14:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 124.405,
+    "max": 124.436,
+    "min": 124.094,
+    "close": 124.181,
+    "volume": 153457.0
+  },
+  {
+    "startDateTime": "2023-03-06T13:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 124.667,
+    "max": 124.708,
+    "min": 124.275,
+    "close": 124.381,
+    "volume": 153432.0
+  },
+  {
+    "startDateTime": "2023-03-06T12:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 124.844,
+    "max": 125.052,
+    "min": 124.438,
+    "close": 124.639,
+    "volume": 186934.0
+  },
+  {
+    "startDateTime": "2023-03-06T11:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 124.787,
+    "max": 125.081,
+    "min": 124.533,
+    "close": 124.831,
+    "volume": 185130.0
+  },
+  {
+    "startDateTime": "2023-03-06T10:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 124.424,
+    "max": 125.09,
+    "min": 124.275,
+    "close": 124.754,
+    "volume": 358413.0
+  },
+  {
+    "startDateTime": "2023-03-06T09:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 124.252,
+    "max": 124.488,
+    "min": 123.798,
+    "close": 124.401,
+    "volume": 177769.0
+  },
+  {
+    "startDateTime": "2023-03-06T08:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 124.233,
+    "max": 124.268,
+    "min": 123.998,
+    "close": 124.229,
+    "volume": 822.0
+  },
+  {
+    "startDateTime": "2023-03-03T18:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 123.917,
+    "max": 124.077,
+    "min": 123.855,
+    "close": 124.037,
+    "volume": 687.0
+  },
+  {
+    "startDateTime": "2023-03-03T17:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 123.917,
+    "max": 123.934,
+    "min": 123.855,
+    "close": 123.894,
+    "volume": 733.0
+  },
+  {
+    "startDateTime": "2023-03-03T16:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 123.908,
+    "max": 123.924,
+    "min": 123.845,
+    "close": 123.885,
+    "volume": 607666.0
+  },
+  {
+    "startDateTime": "2023-03-03T15:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 123.974,
+    "max": 124.178,
+    "min": 123.731,
+    "close": 123.885,
+    "volume": 454035.0
+  },
+  {
+    "startDateTime": "2023-03-03T14:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 123.678,
+    "max": 123.991,
+    "min": 123.535,
+    "close": 123.951,
+    "volume": 128992.0
+  },
+  {
+    "startDateTime": "2023-03-03T13:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 123.91,
+    "max": 124.029,
+    "min": 123.368,
+    "close": 123.66,
+    "volume": 155514.0
+  },
+  {
+    "startDateTime": "2023-03-03T12:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 123.831,
+    "max": 123.934,
+    "min": 123.612,
+    "close": 123.875,
+    "volume": 127413.0
+  },
+  {
+    "startDateTime": "2023-03-03T11:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 123.573,
+    "max": 123.915,
+    "min": 123.344,
+    "close": 123.808,
+    "volume": 154219.0
+  },
+  {
+    "startDateTime": "2023-03-03T10:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 123.544,
+    "max": 123.762,
+    "min": 123.014,
+    "close": 123.56,
+    "volume": 202110.0
+  },
+  {
+    "startDateTime": "2023-03-03T09:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 123.583,
+    "max": 123.752,
+    "min": 123.339,
+    "close": 123.483,
+    "volume": 160070.0
+  },
+  {
+    "startDateTime": "2023-03-03T08:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 123.63,
+    "max": 123.647,
+    "min": 123.377,
+    "close": 123.56,
+    "volume": 690.0
+  },
+  {
+    "startDateTime": "2023-03-03T07:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 123.563,
+    "max": 123.58,
+    "min": 123.501,
+    "close": 123.541,
+    "volume": 109.0
+  },
+  {
+    "startDateTime": "2023-03-03T05:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 123.774,
+    "max": 123.79,
+    "min": 123.712,
+    "close": 123.751,
+    "volume": 310.0
+  },
+  {
+    "startDateTime": "2023-03-02T18:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 123.239,
+    "max": 123.255,
+    "min": 123.177,
+    "close": 123.216,
+    "volume": 100.0
+  },
+  {
+    "startDateTime": "2023-03-02T17:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 123.131,
+    "max": 123.148,
+    "min": 123.07,
+    "close": 123.109,
+    "volume": 100.0
+  },
+  {
+    "startDateTime": "2023-03-02T16:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 123.229,
+    "max": 123.246,
+    "min": 123.167,
+    "close": 123.206,
+    "volume": 599175.0
+  },
+  {
+    "startDateTime": "2023-03-02T15:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.98,
+    "max": 123.523,
+    "min": 122.804,
+    "close": 123.216,
+    "volume": 558520.0
+  },
+  {
+    "startDateTime": "2023-03-02T14:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.828,
+    "max": 123.16,
+    "min": 122.756,
+    "close": 122.967,
+    "volume": 190123.0
+  },
+  {
+    "startDateTime": "2023-03-02T13:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.173,
+    "max": 122.854,
+    "min": 122.04,
+    "close": 122.795,
+    "volume": 279626.0
+  },
+  {
+    "startDateTime": "2023-03-02T12:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.254,
+    "max": 122.423,
+    "min": 122.002,
+    "close": 122.155,
+    "volume": 180747.0
+  },
+  {
+    "startDateTime": "2023-03-02T11:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.55,
+    "max": 122.739,
+    "min": 122.116,
+    "close": 122.222,
+    "volume": 167383.0
+  },
+  {
+    "startDateTime": "2023-03-02T10:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.163,
+    "max": 122.691,
+    "min": 122.068,
+    "close": 122.518,
+    "volume": 219188.0
+  },
+  {
+    "startDateTime": "2023-03-02T09:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.34,
+    "max": 122.729,
+    "min": 122.011,
+    "close": 122.136,
+    "volume": 284138.0
+  },
+  {
+    "startDateTime": "2023-03-02T08:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.34,
+    "max": 122.452,
+    "min": 122.279,
+    "close": 122.317,
+    "volume": 725.0
+  },
+  {
+    "startDateTime": "2023-03-01T19:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.894,
+    "max": 122.911,
+    "min": 122.833,
+    "close": 122.872,
+    "volume": 100.0
+  },
+  {
+    "startDateTime": "2023-03-01T18:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.522,
+    "max": 122.643,
+    "min": 122.288,
+    "close": 122.604,
+    "volume": 5346.0
+  },
+  {
+    "startDateTime": "2023-03-01T17:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.807,
+    "max": 122.823,
+    "min": 122.745,
+    "close": 122.784,
+    "volume": 100.0
+  },
+  {
+    "startDateTime": "2023-03-01T16:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.522,
+    "max": 122.815,
+    "min": 122.279,
+    "close": 122.776,
+    "volume": 525234.0
+  },
+  {
+    "startDateTime": "2023-03-01T15:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.331,
+    "max": 122.787,
+    "min": 122.24,
+    "close": 122.518,
+    "volume": 499753.0
+  },
+  {
+    "startDateTime": "2023-03-01T14:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.464,
+    "max": 122.5,
+    "min": 122.154,
+    "close": 122.317,
+    "volume": 236276.0
+  },
+  {
+    "startDateTime": "2023-03-01T13:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.579,
+    "max": 122.605,
+    "min": 122.231,
+    "close": 122.436,
+    "volume": 132588.0
+  },
+  {
+    "startDateTime": "2023-03-01T12:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.751,
+    "max": 122.959,
+    "min": 122.519,
+    "close": 122.571,
+    "volume": 175757.0
+  },
+  {
+    "startDateTime": "2023-03-01T11:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 122.789,
+    "max": 122.854,
+    "min": 122.03,
+    "close": 122.719,
+    "volume": 461907.0
+  },
+  {
+    "startDateTime": "2023-03-01T10:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 123.525,
+    "max": 123.609,
+    "min": 122.681,
+    "close": 122.757,
+    "volume": 463345.0
+  },
+  {
+    "startDateTime": "2023-03-01T09:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 123.21,
+    "max": 123.764,
+    "min": 122.909,
+    "close": 123.44,
+    "volume": 229059.0
+  },
+  {
+    "startDateTime": "2023-03-01T08:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 123.487,
+    "max": 123.504,
+    "min": 123.234,
+    "close": 123.273,
+    "volume": 261.0
+  },
+  {
+    "startDateTime": "2023-03-01T07:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 123.85,
+    "max": 123.867,
+    "min": 123.788,
+    "close": 123.827,
+    "volume": 100.0
+  },
+  {
+    "startDateTime": "2023-03-01T06:00:00.000+00:00",
+    "ticker": "IBM",
+    "interval": 60,
+    "open": 123.602,
+    "max": 123.618,
+    "min": 123.54,
+    "close": 123.579,
+    "volume": 351.0
+  }
+]

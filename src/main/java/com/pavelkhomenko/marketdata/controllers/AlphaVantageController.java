@@ -9,7 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 @RestController
 @RequestMapping("/global")
@@ -20,11 +20,11 @@ public class AlphaVantageController {
     private final CandleHistoryService candleHistoryService;
 
     @GetMapping("/shares/{ticker}/history")
-    public Set<Candle> getCandlesHistory(@RequestParam("candlesize") int interval,
-                                         @RequestParam("startdate") LocalDate startDate,
-                                         @RequestParam("enddate") LocalDate endDate,
-                                         @RequestParam("apikey") String apikey,
-                                         @PathVariable @NotBlank @NotEmpty String ticker) throws JsonProcessingException {
+    public List<Candle> getCandlesHistory(@RequestParam("candlesize") int interval,
+                                          @RequestParam("startdate") LocalDate startDate,
+                                          @RequestParam("enddate") LocalDate endDate,
+                                          @RequestParam("apikey") String apikey,
+                                          @PathVariable @NotBlank @NotEmpty String ticker) throws JsonProcessingException {
         return candleHistoryService.getAlphaVantageCandles(ticker, interval, apikey, startDate, endDate);
     }
 

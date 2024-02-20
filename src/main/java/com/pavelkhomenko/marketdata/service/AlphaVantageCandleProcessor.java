@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -31,14 +32,13 @@ public class AlphaVantageCandleProcessor {
         return client.getResponseBody(uri);
     }
 
-    public Set<Candle> getCandleSet(String ticker, int interval, String apikey, LocalDate start, LocalDate end) throws JsonProcessingException {
+    public List<Candle> getCandleSet(String ticker, int interval, String apikey, LocalDate start, LocalDate end) throws JsonProcessingException {
         List<String> periods = getTimeIntervals(start, end);
-        Set<Candle> stockCandles = new TreeSet<>((candle1, candle2) -> candle1.getStartDateTime()
-                .isBefore(candle2.getStartDateTime()) ? -1 :
-                candle1.getStartDateTime().isEqual(candle2.getStartDateTime()) ? 0 : 1);
+        List<Candle> stockCandles = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         ObjectMapper objectMapper = new ObjectMapper();
         String candlesKey = "Time Series (" + interval + "min)";
+        ZoneOffset zoneOffset = ZoneOffset.UTC;
         for (String period: periods) {
             JsonNode candlesJson = objectMapper.readTree(getCandlesJson(ticker, apikey, period, interval))
                     .get(candlesKey);
@@ -47,12 +47,16 @@ public class AlphaVantageCandleProcessor {
                 String date = fieldNames.next();
                 try {
                     stockCandles.add(Candle.builder()
-                            .startDateTime(LocalDateTime.parse(date, formatter))
+                            .startDateTime(Date.from(LocalDateTime.parse(date, formatter).toInstant(zoneOffset)))
                             .open(Float.parseFloat(candlesJson.get(date).get("1. open").toString().replace("\"", "")))
                             .max(Float.parseFloat(candlesJson.get(date).get("2. high").toString().replace("\"", "")))
                             .min(Float.parseFloat(candlesJson.get(date).get("3. low").toString().replace("\"", "")))
                             .close(Float.parseFloat(candlesJson.get(date).get("4. close").toString().replace("\"", "")))
                             .volume(Float.parseFloat(candlesJson.get(date).get("5. volume").toString().replace("\"", "")))
+                            .source("AlphaVantage")
+                            .interval(interval)
+                            .id(LocalDateTime.parse(date, formatter).toString() + ticker + interval)
+                            .ticker(ticker)
                             .build());
                 } catch (NullPointerException e) {
                     log.warn("No data for the period {}", date);
