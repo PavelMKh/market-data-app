@@ -7,6 +7,8 @@ App supports saving and loading data from a local MongoDB database. To use the f
 ## ⭐ Features
 - Stock prices history from MOEX ISS (https://www.moex.com/a2193)
 - Historic candles from AlphaVantage (https://www.alphavantage.co/)
+- saving data to a local repository (MongoDB)
+- uploading data for all tickers in your MongoDB database from the last date to the current one (from MOEX only)
 
 ## 💻 Usage
 ### 1. Historic candles from MOEX ISS 
@@ -51,6 +53,18 @@ Request parameters:
 Example of request:
 ```java
 GET /repo/shares/IBM/history?candlesize=60&startdate=2023-02-21&enddate=2023-03-15
+```
+
+### 4. Upload historic candles to Database (MongoDB)
+```java
+GET /repo/reload/moex
+```
+Request parameters:
+* `defaultStartDate` - if there is no date for the specified candle size for ticker in your database, additional loading will begin from this date
+
+Example of request:
+```java
+GET /repo/reload/moex?defaultStartDate=2024-02-01
 ```
 
 ## 🛠️ Technology stack
