@@ -13,12 +13,29 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/repo")
+@RequestMapping
 @Validated
 @RequiredArgsConstructor
-public class RepositoryController {
+public class CandlesHistoryController {
     private final CandleHistoryService candleHistoryService;
-    @GetMapping("/shares/{ticker}/history")
+
+    @GetMapping("/moex/shares/{ticker}/history")
+    public List<Candle> getCandlesHistoryMoex(@RequestParam("candlesize") int interval,
+                                           @RequestParam("startdate") LocalDate start,
+                                           @RequestParam("enddate") LocalDate end,
+                                           @PathVariable String ticker) throws JsonProcessingException {
+        return candleHistoryService.getMoexCandles(ticker, interval, start, end);
+    }
+
+    @GetMapping("/global/shares/{ticker}/history")
+    public List<Candle> getCandlesHistoryAlphaVantage(@RequestParam("candlesize") int interval,
+                                          @RequestParam("startdate") LocalDate startDate,
+                                          @RequestParam("enddate") LocalDate endDate,
+                                          @RequestParam("apikey") String apikey,
+                                          @PathVariable @NotBlank @NotEmpty String ticker) throws JsonProcessingException {
+        return candleHistoryService.getAlphaVantageCandles(ticker, interval, apikey, startDate, endDate);
+    }
+    @GetMapping("/repo/shares/{ticker}/history")
     public List<Candle> getCandlesHistoryFromRepository(@RequestParam("candlesize") int interval,
                                                         @RequestParam("startdate") LocalDate startDate,
                                                         @RequestParam("enddate") LocalDate endDate,
@@ -26,7 +43,7 @@ public class RepositoryController {
         return candleHistoryService.getCandlesFromDatabase(ticker, interval, startDate, endDate);
     }
 
-    @GetMapping("/reload/moex")
+    @GetMapping("/repo/reload/moex")
     public List<Candle> reloadRepositoryMoex(@RequestParam("defaultStartDate") LocalDate defaultStartDate)
             throws JsonProcessingException {
         return candleHistoryService.reloadRepositoryMoex(defaultStartDate);

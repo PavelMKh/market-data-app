@@ -53,6 +53,11 @@ public class CandleHistoryService {
         if (LocalDate.now().isBefore(start) || LocalDate.now().isBefore(end)) {
             throw new IncorrectDateException("Future dates cannot be query parameters");
         }
+
+        if (start.isAfter(end)) {
+            throw new IncorrectDateException("The start date cannot be later than the end date");
+        }
+
         if (!Constants.MOEX_CANDLE_SIZE.contains(interval)) {
             throw new IncorrectCandleSizeException("The candle size is not valid. Valid values: " +
                     "1 (1 minute), 10 (10 minutes), 60 (1 hour), " +
@@ -61,9 +66,7 @@ public class CandleHistoryService {
         if (ticker.isEmpty() || ticker.isBlank()) {
             throw new IncorrectTickerNameException("Ticker can't be empty or blank");
         }
-        List<Candle> candles = requestMoexProcessor.getCandleSet(ticker, interval, start, end);
-        candleMongoRepository.saveAll(candles);
-        return candles;
+        return requestMoexProcessor.getCandleSet(ticker, interval, start, end);
     }
 
     public List<Candle> getCandlesFromDatabase(String ticker, int interval, LocalDate start,
@@ -94,7 +97,8 @@ public class CandleHistoryService {
         return reloadedCandles;
     }
 
-    /* */
+    /* This method allows you to get the latest date of a candle
+    stored in the database for a ticker and interval*/
     private LocalDate getLastUpdatedDate(String ticker, int interval, LocalDate defaultStartDate) throws JsonProcessingException {
         List<String> dates = candleMongoRepository.getLastDateForTicker(ticker, interval);
         LocalDate lastUpdatedDate;

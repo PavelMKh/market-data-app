@@ -10,17 +10,29 @@ import org.aspectj.lang.annotation.Aspect;
 @Aspect
 @Slf4j
 public class LoggingAspect {
-    @Before("execution(* com.pavelkhomenko.marketdata.controllers.AlphaVantageController.getCandlesHistory(..))")
+    @Before("execution(* getCandlesHistoryAlphaVantage(..))")
     public void logBeforeGetCandlesFromAlphaVantageAdvice(JoinPoint joinPoint) {
         Object[] requestArgs = joinPoint.getArgs();
-        log.info("request to receive candles from AlphaVantage: : ticker {}, startSate {}, endDate {}, candleSize {}",
+        log.info("request candles from AlphaVantage: : ticker {}, startSate {}, endDate {}, candleSize {}",
                 requestArgs[4], requestArgs[1], requestArgs[2], requestArgs[0]);
     }
 
-    @Before("execution(* com.pavelkhomenko.marketdata.controllers.MoexController.getCandlesByTicker(..))")
+    @Before("execution(* getCandlesHistoryMoex(..))")
     public void logBeforeGetCandlesFromMoex(JoinPoint joinPoint) {
         Object[] requestArgs = joinPoint.getArgs();
-        log.info("request to receive candles from MOEX: ticker {}, startSate {}, endDate {}, candleSize {}",
+        log.info("request candles from MOEX: ticker {}, startSate {}, endDate {}, candleSize {}",
                 requestArgs[3], requestArgs[1], requestArgs[2], requestArgs[0]);
+    }
+
+    @Before("execution(* getCandlesHistoryMoex(..))")
+    public void logCandlesHistoryFromRepository(JoinPoint joinPoint) {
+        Object[] requestArgs = joinPoint.getArgs();
+        log.info("request candles from repo: ticker {}, startSate {}, endDate {}, candleSize {}",
+                requestArgs[3], requestArgs[1], requestArgs[2], requestArgs[0]);
+    }
+
+    @Before("execution(* com.pavelkhomenko.marketdata.controllers.CandlesHistoryController.reloadRepositoryMoex(..))")
+    public void logUploadingCandlesIntoDatabase() {
+        log.info("uploading candles into database has started");
     }
 }

@@ -17,6 +17,7 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.concurrent.*;
 
 @Service
 @Slf4j
@@ -41,21 +42,21 @@ public class MoexCandleProcessor {
         ZoneOffset zoneOffset = ZoneOffset.of("+00:00");
         for (List<String> period: periods) {
             ArrayNode candlesJson = (ArrayNode) objectMapper.readTree(getCandlesJson(ticker, interval, LocalDate.parse(period.get(0)),
-                        LocalDate.parse(period.get(1)))).get("candles").get("data");
+                    LocalDate.parse(period.get(1)))).get("candles").get("data");
             candlesJson.forEach(element -> {
                 stockCandles.add(Candle.builder()
-                            .startDateTime(Date.from(LocalDateTime.parse(element.get(6).asText(), formatter)
-                                    .toInstant(zoneOffset)))
-                            .open(Float.parseFloat(element.get(0).asText()))
-                            .max(Float.parseFloat(element.get(2).asText()))
-                            .min(Float.parseFloat(element.get(3).asText()))
-                            .close(Float.parseFloat(element.get(1).asText()))
-                            .volume(Float.parseFloat(element.get(5).asText()))
-                            .source("MOEX")
-                            .interval(interval)
-                            .ticker(ticker)
-                            .id(LocalDateTime.parse(element.get(6).asText(), formatter)+ticker+interval)
-                            .build());
+                        .startDateTime(Date.from(LocalDateTime.parse(element.get(6).asText(), formatter)
+                                .toInstant(zoneOffset)))
+                        .open(Float.parseFloat(element.get(0).asText()))
+                        .max(Float.parseFloat(element.get(2).asText()))
+                        .min(Float.parseFloat(element.get(3).asText()))
+                        .close(Float.parseFloat(element.get(1).asText()))
+                        .volume(Float.parseFloat(element.get(5).asText()))
+                        .source("MOEX")
+                        .interval(interval)
+                        .ticker(ticker)
+                        .id(LocalDateTime.parse(element.get(6).asText(), formatter)+ticker+interval)
+                        .build());
             });
         }
         return stockCandles;
