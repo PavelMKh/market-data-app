@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pavelkhomenko.marketdata.Constants;
-import com.pavelkhomenko.marketdata.dto.Candle;
+import com.pavelkhomenko.marketdata.candleprocessing.AlphaVantageCandleProcessor;
+import com.pavelkhomenko.marketdata.candleprocessing.MoexCandleProcessor;
+import com.pavelkhomenko.marketdata.entity.Candle;
 import com.pavelkhomenko.marketdata.exceptions.IncorrectCandleSizeException;
 import com.pavelkhomenko.marketdata.exceptions.IncorrectDateException;
 import com.pavelkhomenko.marketdata.exceptions.IncorrectTickerNameException;
@@ -112,5 +114,4 @@ public class CandleHistoryService {
         }
         return lastUpdatedDate;
     }
-
 }

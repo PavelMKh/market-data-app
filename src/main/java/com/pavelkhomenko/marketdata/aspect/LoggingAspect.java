@@ -1,4 +1,4 @@
-package com.pavelkhomenko.marketdata.aspects;
+package com.pavelkhomenko.marketdata.aspect;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -31,7 +31,7 @@ public class LoggingAspect {
                 requestArgs[3], requestArgs[1], requestArgs[2], requestArgs[0]);
     }
 
-    @Before("execution(* com.pavelkhomenko.marketdata.controllers.CandlesHistoryController.reloadRepositoryMoex(..))")
+    @Before("execution(* com.pavelkhomenko.marketdata.controller.CandlesHistoryController.reloadRepositoryMoex(..))")
     public void logUploadingCandlesIntoDatabase() {
         log.info("uploading candles into database has started");
     }

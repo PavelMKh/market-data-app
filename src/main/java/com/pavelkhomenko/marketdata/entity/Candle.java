@@ -1,4 +1,4 @@
-package com.pavelkhomenko.marketdata.dto;
+package com.pavelkhomenko.marketdata.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;

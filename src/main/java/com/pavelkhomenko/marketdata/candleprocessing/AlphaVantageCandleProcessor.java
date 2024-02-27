@@ -1,10 +1,10 @@
-package com.pavelkhomenko.marketdata.service;
+package com.pavelkhomenko.marketdata.candleprocessing;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pavelkhomenko.marketdata.dto.Candle;
-import com.pavelkhomenko.marketdata.httpclients.HttpRequestClient;
+import com.pavelkhomenko.marketdata.entity.Candle;
+import com.pavelkhomenko.marketdata.httpclient.HttpRequestClient;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
