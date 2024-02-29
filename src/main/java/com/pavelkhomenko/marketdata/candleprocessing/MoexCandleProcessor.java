@@ -60,6 +60,7 @@ public class MoexCandleProcessor {
         }
         return stockCandles;
     }
+
     /* Data can be requested if interval doesn't exceed 100 days
     * If the client interval exceeds 99 days, this function allows
     * to split the client interval into several intervals of no more than 99 days*/
@@ -69,13 +70,16 @@ public class MoexCandleProcessor {
         int numberOfPeriods = (int) (dayInterval / 100);
         for (int i = 0; i < numberOfPeriods; i++){
             List<String> startEndDate = new ArrayList<>();
-            LocalDate endOfInterval = startDate.plusDays(99);
+            LocalDate endOfInterval = startDate.plusDays(100);
             startEndDate.add(startDate.toString());
             startEndDate.add(endOfInterval.toString());
             result.add(List.copyOf(startEndDate));
             startDate = endOfInterval;
             startEndDate.clear();
         }
+        List<String> preFinalInterval = List.of(startDate.toString(), startDate.plusDays(50).toString());
+        startDate = startDate.plusDays(50);
+        result.add(preFinalInterval);
         List<String> finalInterval = List.of(startDate.toString(), endDate.toString());
         result.add(finalInterval);
         return result;

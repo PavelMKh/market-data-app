@@ -24,7 +24,7 @@ public class LoggingAspect {
                 requestArgs[3], requestArgs[1], requestArgs[2], requestArgs[0]);
     }
 
-    @Before("execution(* getCandlesHistoryMoex(..))")
+    @Before("execution(* getCandlesHistoryFromRepository(..))")
     public void logCandlesHistoryFromRepository(JoinPoint joinPoint) {
         Object[] requestArgs = joinPoint.getArgs();
         log.info("request candles from repo: ticker {}, startSate {}, endDate {}, candleSize {}",
@@ -34,5 +34,26 @@ public class LoggingAspect {
     @Before("execution(* com.pavelkhomenko.marketdata.controller.CandlesHistoryController.reloadRepositoryMoex(..))")
     public void logUploadingCandlesIntoDatabase() {
         log.info("uploading candles into database has started");
+    }
+
+    @Before("execution(* getCandlesHistoryFromRepositoryCsv(..))")
+    public void logCandlesHistoryFromRepositoryToCsv(JoinPoint joinPoint) {
+        Object[] requestArgs = joinPoint.getArgs();
+        log.info("request candles from repo to csv: ticker {}, startSate {}, endDate {}, candleSize {}",
+                requestArgs[3], requestArgs[1], requestArgs[2], requestArgs[0]);
+    }
+
+    @Before("execution(* getCandlesHistoryAlphaVantageCsv(..))")
+    public void logCandlesHistoryFromAlphaVantageToCsv(JoinPoint joinPoint) {
+        Object[] requestArgs = joinPoint.getArgs();
+        log.info("request candles from AlphaVantage to csv: ticker {}, startSate {}, endDate {}, candleSize {}",
+                requestArgs[4], requestArgs[1], requestArgs[2], requestArgs[0]);
+    }
+
+    @Before("execution(* getCandlesHistoryMoexCsv(..))")
+    public void logCandlesHistoryFromMoexToCsv(JoinPoint joinPoint) {
+        Object[] requestArgs = joinPoint.getArgs();
+        log.info("request candles from MOEX to csv: ticker {}, startSate {}, endDate {}, candleSize {}",
+                requestArgs[3], requestArgs[1], requestArgs[2], requestArgs[0]);
     }
 }

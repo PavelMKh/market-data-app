@@ -11,12 +11,15 @@ import com.pavelkhomenko.marketdata.exceptions.IncorrectCandleSizeException;
 import com.pavelkhomenko.marketdata.exceptions.IncorrectDateException;
 import com.pavelkhomenko.marketdata.exceptions.IncorrectTickerNameException;
 import com.pavelkhomenko.marketdata.repository.CandleMongoRepository;
+import com.pavelkhomenko.marketdata.util.CsvFileGenerator;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -31,6 +34,8 @@ public class CandleHistoryService {
     private final AlphaVantageCandleProcessor requestAlphaVantageProcessor;
     @NotNull
     private final CandleMongoRepository candleMongoRepository;
+    @NotNull
+    private final CsvFileGenerator csvFileGenerator;
     ObjectMapper objectMapper = new ObjectMapper();
 
     public List<Candle> getAlphaVantageCandles(String ticker, int interval, String apikey,
@@ -113,5 +118,30 @@ public class CandleHistoryService {
             lastUpdatedDate = defaultStartDate;
         }
         return lastUpdatedDate;
+    }
+
+    public ByteArrayInputStream loadFromMoexToCsv(String ticker,
+                                                   int interval,
+                                                   LocalDate start,
+                                                   LocalDate end) throws JsonProcessingException {
+        List<Candle> candles = getMoexCandles(ticker, interval, start, end);
+        return csvFileGenerator.writeCandlesToCsv(candles);
+    }
+
+    public ByteArrayInputStream loadFromAlphaVantageToCsv(String ticker,
+                                                          int interval,
+                                                          String apikey,
+                                                          LocalDate start,
+                                                          LocalDate end) throws JsonProcessingException {
+        List<Candle> candles = getAlphaVantageCandles(ticker, interval, apikey, start, end);
+        return csvFileGenerator.writeCandlesToCsv(candles);
+    }
+
+    public ByteArrayInputStream loadFromRepoToCsv(String ticker,
+                                                  int interval,
+                                                  LocalDate start,
+                                                  LocalDate end) throws JsonProcessingException {
+        List<Candle> candles = getCandlesFromDatabase(ticker, interval, start, end);
+        return csvFileGenerator.writeCandlesToCsv(candles);
     }
 }

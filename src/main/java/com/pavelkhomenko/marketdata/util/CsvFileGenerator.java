@@ -6,33 +6,39 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.springframework.stereotype.Component;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
-import java.time.LocalDate;
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
 @Slf4j
 public class CsvFileGenerator {
-    public void writeCandlesToCsv(List<Candle> candles, String ticker, LocalDate start,
-                                  LocalDate end, int interval) {
-        try {
-            String fileName = String.format("%s_%s_%s_%s.csv", ticker, interval, start, end);
-            Writer writer = new FileWriter(fileName);
-            CSVPrinter printer = new CSVPrinter(writer, CSVFormat.DEFAULT);
+    public ByteArrayInputStream writeCandlesToCsv(List<Candle> candles) {
+        CSVFormat format = CSVFormat.DEFAULT.withHeader
+                ("DateTime", "Ticker", "CandleSize", "Open", "Max", "Min", "Close", "Volume");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try (ByteArrayOutputStream candlesOut =
+                     new ByteArrayOutputStream();
+             PrintWriter writer = new PrintWriter(candlesOut);
+             CSVPrinter csvPrinter = new CSVPrinter(writer, format)) {
             for (Candle candle : candles) {
-                printer.printRecord(candle.getStartDateTime(),
+                List<String> candleData = Arrays.asList(
+                        formatter.format(candle.getStartDateTime()),
                         candle.getTicker(),
-                        candle.getInterval(),
-                        candle.getOpen(),
-                        candle.getMax(),
-                        candle.getMin(),
-                        candle.getClose(),
-                        candle.getVolume());
+                        String.valueOf(candle.getInterval()),
+                        String.valueOf(candle.getOpen()),
+                        String.valueOf(candle.getMax()),
+                        String.valueOf(candle.getMin()),
+                        String.valueOf(candle.getClose()),
+                        String.valueOf(candle.getVolume()));
+                csvPrinter.printRecord(candleData);
             }
+            csvPrinter.flush();
+            writer.flush();
+            return new ByteArrayInputStream(candlesOut.toByteArray());
         } catch (IOException e) {
-            log.info("Error writing to csv file");
+            throw new RuntimeException("fail to import data to CSV file: " + e.getMessage());
         }
     }
 }

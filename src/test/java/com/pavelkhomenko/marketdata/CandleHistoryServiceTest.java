@@ -1,10 +1,14 @@
 package com.pavelkhomenko.marketdata;
 
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -114,5 +118,42 @@ public class CandleHistoryServiceTest {
         mockMvc.perform(get(url))
                 .andExpect(status().isOk())
                 .andExpect(content().json(candleHistoryJson));
+    }
+
+    @Test
+    public void getMoexCandlesToCsvTest() throws Exception {
+        String url = "/moex/shares/SBER/export-to-csv?candlesize=60&startdate=2023-01-29&enddate=2024-01-30";
+        mockMvc.perform(get(url))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.header().string(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=SBER_60_2023-01-29_2024-01-30.csv"))
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.parseMediaType("application/csv")));
+
+    }
+
+    @Test
+    public void getRepoCandlesToCsvTest() throws Exception {
+        String url = "/repo/shares/SBER/export-to-csv?candlesize=60&startdate=2023-01-29&enddate=2024-01-30";
+        mockMvc.perform(get(url))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.header().string(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=SBER_60_2023-01-29_2024-01-30.csv"))
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.parseMediaType("application/csv")));
+
+    }
+
+    @Test
+    public void getAlphaVantageCandlesToCsvTest() throws Exception {
+        String url = "/global/shares/IBM/export-to-csv?candlesize=60&" +
+                "startdate=2023-03-01&enddate=2023-03-01&apikey=" + alphaVantageKey;
+        mockMvc.perform(get(url))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.header().string(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=IBM_60_2023-03-01_2023-03-01.csv"))
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.parseMediaType("application/csv")));
+
     }*/
 }
