@@ -1,5 +1,6 @@
 package com.pavelkhomenko.marketdata.aspect;
 
+import com.pavelkhomenko.marketdata.exceptions.CandleProcessingException;
 import com.pavelkhomenko.marketdata.exceptions.IncorrectCandleSizeException;
 import com.pavelkhomenko.marketdata.exceptions.IncorrectDateException;
 import com.pavelkhomenko.marketdata.exceptions.IncorrectTickerNameException;
@@ -18,6 +19,12 @@ public class ExceptionHandlerAspect {
             IncorrectCandleSizeException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, String> handleIncorrectDateCandleSizeTicker(RuntimeException e) {
+        return Map.of("error", e.getMessage());
+    }
+
+    @ExceptionHandler(CandleProcessingException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Map<String, String> handleRuntimeException(RuntimeException e) {
         return Map.of("error", e.getMessage());
     }
 

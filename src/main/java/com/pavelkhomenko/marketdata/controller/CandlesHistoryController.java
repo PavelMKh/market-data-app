@@ -3,7 +3,6 @@ package com.pavelkhomenko.marketdata.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.pavelkhomenko.marketdata.entity.Candle;
 import com.pavelkhomenko.marketdata.service.CandleHistoryService;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
@@ -25,33 +24,38 @@ public class CandlesHistoryController {
     private final CandleHistoryService candleHistoryService;
 
     @GetMapping("/moex/shares/{ticker}/history")
-    public List<Candle> getCandlesHistoryMoex(@RequestParam("candlesize") int interval,
+    public ResponseEntity<List<Candle>> getCandlesHistoryMoex(@RequestParam("candlesize") int interval,
                                            @RequestParam("startdate") LocalDate start,
                                            @RequestParam("enddate") LocalDate end,
                                            @PathVariable String ticker) throws JsonProcessingException {
-        return candleHistoryService.getMoexCandles(ticker, interval, start, end);
+        return ResponseEntity.ok()
+                .body(candleHistoryService.getMoexCandles(ticker, interval, start, end));
     }
 
     @GetMapping("/global/shares/{ticker}/history")
-    public List<Candle> getCandlesHistoryAlphaVantage(@RequestParam("candlesize") int interval,
+    public ResponseEntity<List<Candle>> getCandlesHistoryAlphaVantage(@RequestParam("candlesize") int interval,
                                           @RequestParam("startdate") LocalDate startDate,
                                           @RequestParam("enddate") LocalDate endDate,
                                           @RequestParam("apikey") String apikey,
                                           @PathVariable @NotBlank @NotEmpty String ticker) throws JsonProcessingException {
-        return candleHistoryService.getAlphaVantageCandles(ticker, interval, apikey, startDate, endDate);
+        return ResponseEntity.ok()
+                .body(candleHistoryService.getAlphaVantageCandles(ticker, interval, apikey, startDate, endDate));
     }
     @GetMapping("/repo/shares/{ticker}/history")
-    public List<Candle> getCandlesHistoryFromRepository(@RequestParam("candlesize") int interval,
+    public ResponseEntity<List<Candle>> getCandlesHistoryFromRepository(@RequestParam("candlesize") int interval,
                                                         @RequestParam("startdate") LocalDate startDate,
                                                         @RequestParam("enddate") LocalDate endDate,
                                                         @PathVariable @NotBlank @NotEmpty String ticker) {
-        return candleHistoryService.getCandlesFromDatabase(ticker, interval, startDate, endDate);
+        return ResponseEntity.ok()
+                .body(candleHistoryService.getCandlesFromDatabase(ticker, interval, startDate, endDate));
     }
 
     @GetMapping("/repo/reload/moex")
-    public List<Candle> reloadRepositoryMoex(@RequestParam("defaultStartDate") LocalDate defaultStartDate)
+    public ResponseEntity<List<Candle>> reloadRepositoryMoex(
+            @RequestParam("defaultStartDate") LocalDate defaultStartDate)
             throws JsonProcessingException {
-        return candleHistoryService.reloadRepositoryMoex(defaultStartDate);
+        return ResponseEntity.ok()
+                .body(candleHistoryService.reloadRepositoryMoex(defaultStartDate));
     }
 
     @GetMapping("/moex/shares/{ticker}/export-to-csv")
