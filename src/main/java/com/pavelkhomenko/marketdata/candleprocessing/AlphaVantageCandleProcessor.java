@@ -3,8 +3,10 @@ package com.pavelkhomenko.marketdata.candleprocessing;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pavelkhomenko.marketdata.Constants;
 import com.pavelkhomenko.marketdata.entity.Candle;
-import com.pavelkhomenko.marketdata.httpclient.HttpRequestClient;
+import com.pavelkhomenko.marketdata.exceptions.CandleProcessingException;
+import com.pavelkhomenko.marketdata.util.HttpRequestClient;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,38 +34,51 @@ public class AlphaVantageCandleProcessor {
         return client.getResponseBody(uri);
     }
 
-    public List<Candle> getCandleSet(String ticker, int interval, String apikey, LocalDate start, LocalDate end) throws JsonProcessingException {
+    public List<Candle> getCandleSet(String ticker, int interval, String apikey, LocalDate start, LocalDate end) {
         List<String> periods = getTimeIntervals(start, end);
         List<Candle> stockCandles = new ArrayList<>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         ObjectMapper objectMapper = new ObjectMapper();
         String candlesKey = "Time Series (" + interval + "min)";
-        ZoneOffset zoneOffset = ZoneOffset.UTC;
-        for (String period: periods) {
-            JsonNode candlesJson = objectMapper.readTree(getCandlesJson(ticker, apikey, period, interval))
-                    .get(candlesKey);
-            Iterator<String> fieldNames = candlesJson.fieldNames();
-            while (fieldNames.hasNext()) {
-                String date = fieldNames.next();
+        periods.parallelStream().forEach(period -> {
+            JsonNode candlesJson = null;
+            try {
+                candlesJson = objectMapper.readTree(getCandlesJson(ticker, apikey, period, interval))
+                        .get(candlesKey);
+            } catch (JsonProcessingException e) {
+                throw new CandleProcessingException("An error has occurred during processing external server data");
+            }
+            JsonNode finalCandlesJson = candlesJson;
+            candlesJson.fieldNames().forEachRemaining(date -> {
                 try {
-                    stockCandles.add(Candle.builder()
-                            .startDateTime(Date.from(LocalDateTime.parse(date, formatter).toInstant(zoneOffset)))
-                            .open(Float.parseFloat(candlesJson.get(date).get("1. open").toString().replace("\"", "")))
-                            .max(Float.parseFloat(candlesJson.get(date).get("2. high").toString().replace("\"", "")))
-                            .min(Float.parseFloat(candlesJson.get(date).get("3. low").toString().replace("\"", "")))
-                            .close(Float.parseFloat(candlesJson.get(date).get("4. close").toString().replace("\"", "")))
-                            .volume(Float.parseFloat(candlesJson.get(date).get("5. volume").toString().replace("\"", "")))
-                            .source("AlphaVantage")
-                            .interval(interval)
-                            .id(LocalDateTime.parse(date, formatter).toString() + ticker + interval)
-                            .ticker(ticker)
-                            .build());
+                    stockCandles.add(buildCandleFromJson(finalCandlesJson, date, ticker, interval));
                 } catch (NullPointerException e) {
                     log.warn("No data for the period {}", date);
                 }
-            }
-        }
+            });
+        });
         return stockCandles;
+    }
+
+    private Candle buildCandleFromJson(JsonNode candlesJson, String date, String ticker, int interval) {
+        return Candle.builder()
+                .startDateTime(Date.from(
+                        LocalDateTime.parse(date, Constants.CANDLES_DATETIME_FORMATTER)
+                                .toInstant(Constants.CANDLES_TIME_ZONE)))
+                .open(Float.parseFloat(candlesJson.get(date).get("1. open").toString()
+                        .replace("\"", "")))
+                .max(Float.parseFloat(candlesJson.get(date).get("2. high").toString()
+                        .replace("\"", "")))
+                .min(Float.parseFloat(candlesJson.get(date).get("3. low").toString()
+                        .replace("\"", "")))
+                .close(Float.parseFloat(candlesJson.get(date).get("4. close").toString()
+                        .replace("\"", "")))
+                .volume(Float.parseFloat(candlesJson.get(date).get("5. volume").toString()
+                        .replace("\"", "")))
+                .source("AlphaVantage")
+                .interval(interval)
+                .id(LocalDateTime.parse(date, Constants.CANDLES_DATETIME_FORMATTER) + ticker + interval)
+                .ticker(ticker)
+                .build();
     }
 
     private List<String> getTimeIntervals(LocalDate startDate, LocalDate endDate) {

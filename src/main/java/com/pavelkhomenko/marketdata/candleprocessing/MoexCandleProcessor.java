@@ -1,11 +1,13 @@
 package com.pavelkhomenko.marketdata.candleprocessing;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.pavelkhomenko.marketdata.Constants;
 import com.pavelkhomenko.marketdata.entity.Candle;
 import com.pavelkhomenko.marketdata.exceptions.CandleProcessingException;
-import com.pavelkhomenko.marketdata.httpclient.HttpRequestClient;
+import com.pavelkhomenko.marketdata.util.HttpRequestClient;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,9 +40,7 @@ public class MoexCandleProcessor {
     public List<Candle> getCandleSet(String ticker, int interval, LocalDate start, LocalDate end) {
         var periods = getTimeIntervals(start, end);
         List<Candle> stockCandles = new ArrayList<>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         ObjectMapper objectMapper = new ObjectMapper();
-        ZoneOffset zoneOffset = ZoneOffset.of("+00:00");
         periods.parallelStream().forEach(period -> {
             ArrayNode candlesJson = null;
             try {
@@ -51,23 +51,27 @@ public class MoexCandleProcessor {
             }
             if (!candlesJson.isNull()) {
                 StreamSupport.stream(candlesJson.spliterator(), true)
-                        .forEach(element -> stockCandles.add(Candle.builder()
-                                .startDateTime(Date.from(LocalDateTime.parse(element.get(6).asText(), formatter)
-                                        .toInstant(zoneOffset)))
-                                .open(Float.parseFloat(element.get(0).asText()))
-                                .max(Float.parseFloat(element.get(2).asText()))
-                                .min(Float.parseFloat(element.get(3).asText()))
-                                .close(Float.parseFloat(element.get(1).asText()))
-                                .volume(Float.parseFloat(element.get(5).asText()))
-                                .source("MOEX")
-                                .interval(interval)
-                                .ticker(ticker)
-                                .id(LocalDateTime.parse(element.get(6).asText(), formatter) + ticker + interval)
-                                .build()));
+                        .forEach(element -> stockCandles.add(buildCandleFromJson(element, ticker, interval)));
             }
         });
         stockCandles.sort(Comparator.comparing(Candle::getStartDateTime));
         return stockCandles;
+    }
+
+    private Candle buildCandleFromJson(JsonNode jsonCandle, String ticker, int interval) {
+        return Candle.builder()
+                .startDateTime(Date.from(LocalDateTime.parse(jsonCandle.get(6).asText(), Constants.CANDLES_DATETIME_FORMATTER)
+                        .toInstant(Constants.CANDLES_TIME_ZONE)))
+                .open(Float.parseFloat(jsonCandle.get(0).asText()))
+                .max(Float.parseFloat(jsonCandle.get(2).asText()))
+                .min(Float.parseFloat(jsonCandle.get(3).asText()))
+                .close(Float.parseFloat(jsonCandle.get(1).asText()))
+                .volume(Float.parseFloat(jsonCandle.get(5).asText()))
+                .source("MOEX")
+                .interval(interval)
+                .ticker(ticker)
+                .id(LocalDateTime.parse(jsonCandle.get(6).asText(), Constants.CANDLES_DATETIME_FORMATTER) + ticker + interval)
+                .build();
     }
 
     /* Data can be requested if interval doesn't exceed 100 days
@@ -76,11 +80,13 @@ public class MoexCandleProcessor {
     private List<List<String>> getTimeIntervals(LocalDate startDate, LocalDate endDate){
         List<List<String>> result = new ArrayList<>();
         long dayInterval = ChronoUnit.DAYS.between(startDate, endDate);
+
         if (dayInterval <= 100) {
             List<String> startEndDates = List.of(startDate.toString(), endDate.toString());
             result.add(startEndDates);
             return result;
         }
+
         int numberOfPeriods = (int) (dayInterval / 100);
         for (int i = 0; i < numberOfPeriods; i++){
             List<String> startEndDate = new ArrayList<>();
@@ -91,6 +97,7 @@ public class MoexCandleProcessor {
             startDate = endOfInterval;
             startEndDate.clear();
         }
+
         long finalIntervalDays = ChronoUnit.DAYS.between(startDate, endDate);
         List<String> preFinalInterval = List.of(startDate.toString(),
                 startDate.plusDays(finalIntervalDays / 2).toString());
