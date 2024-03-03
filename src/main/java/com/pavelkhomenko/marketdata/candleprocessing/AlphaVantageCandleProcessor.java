@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -40,7 +39,7 @@ public class AlphaVantageCandleProcessor {
         ObjectMapper objectMapper = new ObjectMapper();
         String candlesKey = "Time Series (" + interval + "min)";
         periods.parallelStream().forEach(period -> {
-            JsonNode candlesJson = null;
+            JsonNode candlesJson;
             try {
                 candlesJson = objectMapper.readTree(getCandlesJson(ticker, apikey, period, interval))
                         .get(candlesKey);
@@ -48,7 +47,10 @@ public class AlphaVantageCandleProcessor {
                 throw new CandleProcessingException("An error has occurred during processing external server data");
             }
             JsonNode finalCandlesJson = candlesJson;
-            candlesJson.fieldNames().forEachRemaining(date -> {
+            List<String> fieldNamesList = new ArrayList<>();
+            finalCandlesJson.fieldNames().forEachRemaining(fieldNamesList::add);
+
+            fieldNamesList.parallelStream().forEach(date -> {
                 try {
                     stockCandles.add(buildCandleFromJson(finalCandlesJson, date, ticker, interval));
                 } catch (NullPointerException e) {

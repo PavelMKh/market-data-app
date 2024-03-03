@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.StreamSupport;
@@ -42,7 +40,7 @@ public class MoexCandleProcessor {
         List<Candle> stockCandles = new ArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();
         periods.parallelStream().forEach(period -> {
-            ArrayNode candlesJson = null;
+            ArrayNode candlesJson;
             try {
                 candlesJson = (ArrayNode) objectMapper.readTree(getCandlesJson(ticker, interval, LocalDate.parse(period.get(0)),
                         LocalDate.parse(period.get(1)))).get("candles").get("data");

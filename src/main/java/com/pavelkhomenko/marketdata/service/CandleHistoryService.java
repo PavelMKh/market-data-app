@@ -50,9 +50,7 @@ public class CandleHistoryService {
         if (ticker.isEmpty() || ticker.isBlank()) {
             throw new IncorrectTickerNameException("Ticker can't be empty or blank");
         }
-        List<Candle> candles = requestAlphaVantageProcessor.getCandleSet(ticker, interval, apikey, start, end);
-        candleMongoRepository.saveAll(candles);
-        return candles;
+        return requestAlphaVantageProcessor.getCandleSet(ticker, interval, apikey, start, end);
     }
 
     public List<Candle> getMoexCandles(String ticker, int interval, LocalDate start,
