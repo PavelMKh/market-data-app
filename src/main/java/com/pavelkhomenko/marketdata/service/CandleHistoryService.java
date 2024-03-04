@@ -19,7 +19,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -39,7 +38,7 @@ public class CandleHistoryService {
     ObjectMapper objectMapper = new ObjectMapper();
 
     public List<Candle> getAlphaVantageCandles(String ticker, int interval, String apikey,
-                                              LocalDate start, LocalDate end) throws JsonProcessingException {
+                                              LocalDate start, LocalDate end) {
         if (LocalDate.now().isBefore(start) || LocalDate.now().isBefore(end)) {
             throw new IncorrectDateException("Future dates cannot be query parameters");
         }
@@ -54,7 +53,7 @@ public class CandleHistoryService {
     }
 
     public List<Candle> getMoexCandles(String ticker, int interval, LocalDate start,
-                                      LocalDate end) throws JsonProcessingException {
+                                      LocalDate end) {
         if (LocalDate.now().isBefore(start) || LocalDate.now().isBefore(end)) {
             throw new IncorrectDateException("Future dates cannot be query parameters");
         }
@@ -121,7 +120,7 @@ public class CandleHistoryService {
     public ByteArrayInputStream loadFromMoexToCsv(String ticker,
                                                    int interval,
                                                    LocalDate start,
-                                                   LocalDate end) throws JsonProcessingException {
+                                                   LocalDate end) {
         List<Candle> candles = getMoexCandles(ticker, interval, start, end);
         return csvFileGenerator.writeCandlesToCsv(candles);
     }
@@ -130,7 +129,7 @@ public class CandleHistoryService {
                                                           int interval,
                                                           String apikey,
                                                           LocalDate start,
-                                                          LocalDate end) throws JsonProcessingException {
+                                                          LocalDate end) {
         List<Candle> candles = getAlphaVantageCandles(ticker, interval, apikey, start, end);
         return csvFileGenerator.writeCandlesToCsv(candles);
     }
@@ -138,7 +137,7 @@ public class CandleHistoryService {
     public ByteArrayInputStream loadFromRepoToCsv(String ticker,
                                                   int interval,
                                                   LocalDate start,
-                                                  LocalDate end) throws JsonProcessingException {
+                                                  LocalDate end) {
         List<Candle> candles = getCandlesFromDatabase(ticker, interval, start, end);
         return csvFileGenerator.writeCandlesToCsv(candles);
     }

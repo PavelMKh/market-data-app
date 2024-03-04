@@ -17,7 +17,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping
 @Validated
 @RequiredArgsConstructor
 public class CandlesHistoryController {
@@ -27,7 +26,7 @@ public class CandlesHistoryController {
     public ResponseEntity<List<Candle>> getCandlesHistoryMoex(@RequestParam("candlesize") int interval,
                                            @RequestParam("startdate") LocalDate start,
                                            @RequestParam("enddate") LocalDate end,
-                                           @PathVariable String ticker) throws JsonProcessingException {
+                                           @PathVariable String ticker) {
         return ResponseEntity.ok()
                 .body(candleHistoryService.getMoexCandles(ticker, interval, start, end));
     }
@@ -37,7 +36,7 @@ public class CandlesHistoryController {
                                           @RequestParam("startdate") LocalDate startDate,
                                           @RequestParam("enddate") LocalDate endDate,
                                           @RequestParam("apikey") String apikey,
-                                          @PathVariable @NotBlank @NotEmpty String ticker) throws JsonProcessingException {
+                                          @PathVariable @NotBlank @NotEmpty String ticker) {
         return ResponseEntity.ok()
                 .body(candleHistoryService.getAlphaVantageCandles(ticker, interval, apikey, startDate, endDate));
     }
@@ -63,7 +62,7 @@ public class CandlesHistoryController {
                 getCandlesHistoryMoexCsv(@RequestParam("candlesize") int interval,
                                          @RequestParam("startdate") LocalDate start,
                                          @RequestParam("enddate") LocalDate end,
-                                         @PathVariable String ticker) throws JsonProcessingException {
+                                         @PathVariable String ticker) {
         String fileName = String.format("%s_%s_%s_%s.csv", ticker, interval, start, end);
         InputStreamResource file = new InputStreamResource(candleHistoryService.loadFromMoexToCsv(ticker,
                 interval, start, end));
@@ -79,7 +78,7 @@ public class CandlesHistoryController {
                                                  @RequestParam("startdate") LocalDate startDate,
                                                  @RequestParam("enddate") LocalDate endDate,
                                                  @RequestParam("apikey") String apikey,
-                                                 @PathVariable @NotBlank @NotEmpty String ticker) throws JsonProcessingException {
+                                                 @PathVariable @NotBlank @NotEmpty String ticker) {
         String fileName = String.format("%s_%s_%s_%s.csv", ticker, interval, startDate, endDate);
         InputStreamResource file = new InputStreamResource(candleHistoryService.loadFromAlphaVantageToCsv(ticker,
                 interval, apikey, startDate, endDate));
@@ -93,7 +92,7 @@ public class CandlesHistoryController {
                 getCandlesHistoryFromRepositoryCsv(@RequestParam("candlesize") int interval,
                                                    @RequestParam("startdate") LocalDate startDate,
                                                    @RequestParam("enddate") LocalDate endDate,
-                                                   @PathVariable @NotBlank @NotEmpty String ticker) throws JsonProcessingException {
+                                                   @PathVariable @NotBlank @NotEmpty String ticker) {
         String fileName = String.format("%s_%s_%s_%s.csv", ticker, interval, startDate, endDate);
         InputStreamResource file = new InputStreamResource(candleHistoryService.loadFromRepoToCsv(ticker,
                 interval, startDate, endDate));

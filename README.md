@@ -9,6 +9,7 @@ App supports saving and loading data from a local MongoDB database. To use the f
 - Historic candles from AlphaVantage (https://www.alphavantage.co/)
 - saving data to a local repository (MongoDB)
 - uploading data for all tickers in your MongoDB database from the last date to the current one (from MOEX only)
+- export candles history in CSV format
 
 ## 💻 Usage
 ### 1. Historic candles from MOEX ISS 
@@ -40,7 +41,7 @@ Example of request:
 GET /global/shares/IBM/history?candlesize=60&startdate=2023-03-01&enddate=2023-04-01&apikey=token
 ```
 
-### 3. Historic candles from Database (MongoDB)
+### 3. Historic candles from Database
 ```java
 GET /repo/shares/[ticker]/history
 ```
@@ -55,7 +56,7 @@ Example of request:
 GET /repo/shares/IBM/history?candlesize=60&startdate=2023-02-21&enddate=2023-03-15
 ```
 
-### 4. Upload historic candles to Database (MongoDB)
+### 4. Upload historic candles to Database
 ```java
 GET /repo/reload/moex
 ```
@@ -66,7 +67,22 @@ Example of request:
 ```java
 GET /repo/reload/moex?defaultStartDate=2024-02-01
 ```
-
+### 5. Export candles to CSV
+#### Request CSV history candles from MOEX ISS:
+```java
+GET /moex/shares/[ticker]/export-to-csv
+```
+Request parameters: similar to "1. Historic candles from MOEX ISS"  
+#### Request CSV history candles from AlphaVantage:
+```java
+GET /global/shares/[ticker]/export-to-csv
+```
+Request parameters: similar to "2. Historic candles from AlphaVantage" 
+#### Request CSV history candles from DataBase:  
+```java
+GET /repo/shares/[ticker]/export-to-csv
+```  
+Request parameters: similar to "3. Historic candles from Database"
 ## 🛠️ Technology stack
 - Java 17 
 - Spring Boot - version 3.2.2

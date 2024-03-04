@@ -58,6 +58,7 @@ public class AlphaVantageCandleProcessor {
                 }
             });
         });
+        stockCandles.sort(Comparator.comparing(Candle::getStartDateTime));
         return stockCandles;
     }
 
