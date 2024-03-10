@@ -1,6 +1,6 @@
 [
   {
-    "startDateTime": "2024-01-29T09:00:00.000+00:00",
+    "startDateTime": "2024-01-29T09:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 273.02,
@@ -10,7 +10,7 @@
     "volume": 52060.0
   },
   {
-    "startDateTime": "2024-01-29T10:00:00.000+00:00",
+    "startDateTime": "2024-01-29T10:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 273.05,
@@ -20,7 +20,7 @@
     "volume": 6204910.0
   },
   {
-    "startDateTime": "2024-01-29T11:00:00.000+00:00",
+    "startDateTime": "2024-01-29T11:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 273.95,
@@ -30,7 +30,7 @@
     "volume": 1652920.0
   },
   {
-    "startDateTime": "2024-01-29T12:00:00.000+00:00",
+    "startDateTime": "2024-01-29T12:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 274.36,
@@ -40,7 +40,7 @@
     "volume": 1458110.0
   },
   {
-    "startDateTime": "2024-01-29T13:00:00.000+00:00",
+    "startDateTime": "2024-01-29T13:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 273.95,
@@ -50,7 +50,7 @@
     "volume": 992360.0
   },
   {
-    "startDateTime": "2024-01-29T14:00:00.000+00:00",
+    "startDateTime": "2024-01-29T14:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 274.45,
@@ -60,7 +60,7 @@
     "volume": 782110.0
   },
   {
-    "startDateTime": "2024-01-29T15:00:00.000+00:00",
+    "startDateTime": "2024-01-29T15:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 274.46,
@@ -70,7 +70,7 @@
     "volume": 815670.0
   },
   {
-    "startDateTime": "2024-01-29T16:00:00.000+00:00",
+    "startDateTime": "2024-01-29T16:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 274.15,
@@ -80,7 +80,7 @@
     "volume": 1221170.0
   },
   {
-    "startDateTime": "2024-01-29T17:00:00.000+00:00",
+    "startDateTime": "2024-01-29T17:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 274.35,
@@ -90,7 +90,7 @@
     "volume": 734640.0
   },
   {
-    "startDateTime": "2024-01-29T18:00:00.000+00:00",
+    "startDateTime": "2024-01-29T18:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 273.93,
@@ -100,7 +100,7 @@
     "volume": 1329390.0
   },
   {
-    "startDateTime": "2024-01-29T19:00:00.000+00:00",
+    "startDateTime": "2024-01-29T19:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 273.73,
@@ -110,7 +110,7 @@
     "volume": 546020.0
   },
   {
-    "startDateTime": "2024-01-29T20:00:00.000+00:00",
+    "startDateTime": "2024-01-29T20:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 273.91,
@@ -120,7 +120,7 @@
     "volume": 327500.0
   },
   {
-    "startDateTime": "2024-01-29T21:00:00.000+00:00",
+    "startDateTime": "2024-01-29T21:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 274.07,
@@ -130,7 +130,7 @@
     "volume": 478390.0
   },
   {
-    "startDateTime": "2024-01-29T22:00:00.000+00:00",
+    "startDateTime": "2024-01-29T22:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 274.14,
@@ -140,7 +140,7 @@
     "volume": 238770.0
   },
   {
-    "startDateTime": "2024-01-29T23:00:00.000+00:00",
+    "startDateTime": "2024-01-29T23:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 274.17,
@@ -150,7 +150,7 @@
     "volume": 261170.0
   },
   {
-    "startDateTime": "2024-01-30T09:00:00.000+00:00",
+    "startDateTime": "2024-01-30T09:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 274.01,
@@ -160,7 +160,7 @@
     "volume": 13420.0
   },
   {
-    "startDateTime": "2024-01-30T10:00:00.000+00:00",
+    "startDateTime": "2024-01-30T10:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 274.05,
@@ -170,7 +170,7 @@
     "volume": 5940320.0
   },
   {
-    "startDateTime": "2024-01-30T11:00:00.000+00:00",
+    "startDateTime": "2024-01-30T11:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 275.6,
@@ -180,7 +180,7 @@
     "volume": 6082520.0
   },
   {
-    "startDateTime": "2024-01-30T12:00:00.000+00:00",
+    "startDateTime": "2024-01-30T12:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 276.48,
@@ -190,7 +190,7 @@
     "volume": 1785810.0
   },
   {
-    "startDateTime": "2024-01-30T13:00:00.000+00:00",
+    "startDateTime": "2024-01-30T13:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 276.12,
@@ -200,7 +200,7 @@
     "volume": 1367520.0
   },
   {
-    "startDateTime": "2024-01-30T14:00:00.000+00:00",
+    "startDateTime": "2024-01-30T14:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 276.05,
@@ -210,7 +210,7 @@
     "volume": 2090750.0
   },
   {
-    "startDateTime": "2024-01-30T15:00:00.000+00:00",
+    "startDateTime": "2024-01-30T15:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 275.94,
@@ -220,7 +220,7 @@
     "volume": 2179320.0
   },
   {
-    "startDateTime": "2024-01-30T16:00:00.000+00:00",
+    "startDateTime": "2024-01-30T16:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 275.29,
@@ -230,7 +230,7 @@
     "volume": 1257330.0
   },
   {
-    "startDateTime": "2024-01-30T17:00:00.000+00:00",
+    "startDateTime": "2024-01-30T17:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 275.49,
@@ -240,7 +240,7 @@
     "volume": 3025390.0
   },
   {
-    "startDateTime": "2024-01-30T18:00:00.000+00:00",
+    "startDateTime": "2024-01-30T18:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 275.08,
@@ -250,7 +250,7 @@
     "volume": 1537510.0
   },
   {
-    "startDateTime": "2024-01-30T19:00:00.000+00:00",
+    "startDateTime": "2024-01-30T19:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 274.88,
@@ -260,7 +260,7 @@
     "volume": 469770.0
   },
   {
-    "startDateTime": "2024-01-30T20:00:00.000+00:00",
+    "startDateTime": "2024-01-30T20:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 275.08,
@@ -270,7 +270,7 @@
     "volume": 516960.0
   },
   {
-    "startDateTime": "2024-01-30T21:00:00.000+00:00",
+    "startDateTime": "2024-01-30T21:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 275.25,
@@ -280,7 +280,7 @@
     "volume": 291820.0
   },
   {
-    "startDateTime": "2024-01-30T22:00:00.000+00:00",
+    "startDateTime": "2024-01-30T22:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 275.1,
@@ -290,7 +290,7 @@
     "volume": 285980.0
   },
   {
-    "startDateTime": "2024-01-30T23:00:00.000+00:00",
+    "startDateTime": "2024-01-30T23:00:00Z",
     "ticker": "SBER",
     "interval": 60,
     "open": 275.34,

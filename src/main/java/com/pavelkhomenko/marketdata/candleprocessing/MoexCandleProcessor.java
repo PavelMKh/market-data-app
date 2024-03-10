@@ -16,8 +16,11 @@ import org.springframework.stereotype.Service;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.StreamSupport;
 
 @Service
@@ -37,7 +40,7 @@ public class MoexCandleProcessor {
 
     public List<Candle> getCandleSet(String ticker, int interval, LocalDate start, LocalDate end) {
         var periods = getTimeIntervals(start, end);
-        List<Candle> stockCandles = new ArrayList<>();
+        List<Candle> stockCandles = new CopyOnWriteArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();
         periods.parallelStream().forEach(period -> {
             ArrayNode candlesJson;
@@ -58,8 +61,8 @@ public class MoexCandleProcessor {
 
     private Candle buildCandleFromJson(JsonNode jsonCandle, String ticker, int interval) {
         return Candle.builder()
-                .startDateTime(Date.from(LocalDateTime.parse(jsonCandle.get(6).asText(), Constants.CANDLES_DATETIME_FORMATTER)
-                        .toInstant(Constants.CANDLES_TIME_ZONE)))
+                .startDateTime(OffsetDateTime.of(LocalDateTime.parse(jsonCandle.get(6).asText(), Constants.CANDLES_DATETIME_FORMATTER),
+                        ZoneOffset.UTC))
                 .open(Float.parseFloat(jsonCandle.get(0).asText()))
                 .max(Float.parseFloat(jsonCandle.get(2).asText()))
                 .min(Float.parseFloat(jsonCandle.get(3).asText()))

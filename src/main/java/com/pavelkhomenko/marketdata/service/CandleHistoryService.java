@@ -1,8 +1,5 @@
 package com.pavelkhomenko.marketdata.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pavelkhomenko.marketdata.Constants;
 import com.pavelkhomenko.marketdata.candleprocessing.AlphaVantageCandleProcessor;
 import com.pavelkhomenko.marketdata.candleprocessing.MoexCandleProcessor;
@@ -10,18 +7,18 @@ import com.pavelkhomenko.marketdata.entity.Candle;
 import com.pavelkhomenko.marketdata.exceptions.IncorrectCandleSizeException;
 import com.pavelkhomenko.marketdata.exceptions.IncorrectDateException;
 import com.pavelkhomenko.marketdata.exceptions.IncorrectTickerNameException;
-import com.pavelkhomenko.marketdata.repository.CandleMongoRepository;
+import com.pavelkhomenko.marketdata.repository.CandleRepository;
 import com.pavelkhomenko.marketdata.util.CsvFileGenerator;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
 @RequiredArgsConstructor
@@ -32,10 +29,9 @@ public class CandleHistoryService {
     @NotNull
     private final AlphaVantageCandleProcessor requestAlphaVantageProcessor;
     @NotNull
-    private final CandleMongoRepository candleMongoRepository;
+    private final CandleRepository candleRepository;
     @NotNull
     private final CsvFileGenerator csvFileGenerator;
-    ObjectMapper objectMapper = new ObjectMapper();
 
     public List<Candle> getAlphaVantageCandles(String ticker, int interval, String apikey,
                                               LocalDate start, LocalDate end) {
@@ -49,7 +45,9 @@ public class CandleHistoryService {
         if (ticker.isEmpty() || ticker.isBlank()) {
             throw new IncorrectTickerNameException("Ticker can't be empty or blank");
         }
-        return requestAlphaVantageProcessor.getCandleSet(ticker, interval, apikey, start, end);
+        List<Candle> candles = requestAlphaVantageProcessor.getCandleSet(ticker, interval, apikey, start, end);
+        candleRepository.saveAll(candles);
+        return candles;
     }
 
     public List<Candle> getMoexCandles(String ticker, int interval, LocalDate start,
@@ -73,46 +71,32 @@ public class CandleHistoryService {
         return requestMoexProcessor.getCandleSet(ticker, interval, start, end);
     }
 
-    public List<Candle> getCandlesFromDatabase(String ticker, int interval, LocalDate start,
-                                              LocalDate end) {
-        Instant startInstant = start.atStartOfDay().atZone(ZoneOffset.UTC).toInstant();
-        Instant endInstant = end.atStartOfDay().atZone(ZoneOffset.UTC).toInstant();
-        Date startDate = Date.from(startInstant);
-        Date endDate = Date.from(endInstant);
-        Sort sort = Sort.by(Sort.Direction.DESC, "startDateTime");
-        return candleMongoRepository.getCandlesBetweenDates(startDate, endDate, ticker, interval, sort);
+    public List<Candle> getCandlesFromDatabase(String ticker, int interval, String start,
+                                               String end) {
+        return candleRepository.getCandlesBetweenDates(convertStringToOffsetDateTime(start),
+                convertStringToOffsetDateTime(end), ticker, interval);
     }
 
-    public List<Candle> reloadRepositoryMoex(LocalDate defaultStartDate) throws JsonProcessingException {
-        Set<String> moexTickers = candleMongoRepository.findDistinctByTickerMoex();
-        List<Candle> reloadedCandles = new ArrayList<>();
+    public List<Candle> reloadRepositoryMoex(String defaultStartDate)  {
+        Set<String> moexTickers = candleRepository.findDistinctByTickerMoex();
+        List<Candle> reloadedCandles = new CopyOnWriteArrayList<>();
         LocalDate currentDate = LocalDate.now();
-        for (String tickerJson: moexTickers) {
-            JsonNode tickerNode = objectMapper.readTree(tickerJson);
-            String ticker = tickerNode.get("ticker").asText();
-            for (int interval: Constants.MOEX_CANDLE_SIZE) {
-                LocalDate lastUpdatedDate = getLastUpdatedDate(ticker, interval, defaultStartDate);
-                log.info("Getting data from MOEX: ticker {}, candle size {}, start date {}, end date {} ",
-                        ticker, interval, lastUpdatedDate, currentDate);
-                reloadedCandles.addAll(getMoexCandles(ticker, interval, lastUpdatedDate, currentDate));
-            }
-        }
-        candleMongoRepository.saveAll(reloadedCandles);
+        moexTickers.parallelStream().forEach(ticker -> Constants.MOEX_CANDLE_SIZE.parallelStream().forEach(interval -> {
+            LocalDate lastUpdatedDate = getLastUpdatedDate(ticker, interval, defaultStartDate);
+            log.info("Getting data from MOEX: ticker {}, candle size {}, start date {}, end date {} ",
+                    ticker, interval, lastUpdatedDate, currentDate);
+            reloadedCandles.addAll(getMoexCandles(ticker, interval, lastUpdatedDate, currentDate));
+        }));
+        candleRepository.saveAll(reloadedCandles);
         return reloadedCandles;
     }
 
     /* This method allows you to get the latest date of a candle
     stored in the database for a ticker and interval*/
-    private LocalDate getLastUpdatedDate(String ticker, int interval, LocalDate defaultStartDate) throws JsonProcessingException {
-        List<String> dates = candleMongoRepository.getLastDateForTicker(ticker, interval);
-        LocalDate lastUpdatedDate;
-        if (!dates.isEmpty()) {
-            String dateJson = dates.get(0);
-            JsonNode dateNode = objectMapper.readTree(dateJson);
-            String dateString = dateNode.get("startDateTime").get("$date").asText();
-            lastUpdatedDate = LocalDate.parse(dateString, DateTimeFormatter.ISO_DATE_TIME);
-        } else {
-            lastUpdatedDate = defaultStartDate;
+    private LocalDate getLastUpdatedDate(String ticker, int interval, String defaultStartDate) {
+        LocalDate lastUpdatedDate = candleRepository.getLastDateForTicker(ticker, interval);
+        if (lastUpdatedDate == null) {
+            return LocalDate.parse(defaultStartDate);
         }
         return lastUpdatedDate;
     }
@@ -136,9 +120,13 @@ public class CandleHistoryService {
 
     public ByteArrayInputStream loadFromRepoToCsv(String ticker,
                                                   int interval,
-                                                  LocalDate start,
-                                                  LocalDate end) {
+                                                  String start,
+                                                  String end) {
         List<Candle> candles = getCandlesFromDatabase(ticker, interval, start, end);
         return csvFileGenerator.writeCandlesToCsv(candles);
+    }
+
+    private OffsetDateTime convertStringToOffsetDateTime(String date) {
+        return OffsetDateTime.parse(date + "T00:00:00Z", DateTimeFormatter.ISO_OFFSET_DATE_TIME);
     }
 }

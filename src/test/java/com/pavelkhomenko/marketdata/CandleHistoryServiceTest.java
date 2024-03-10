@@ -105,7 +105,7 @@ public class CandleHistoryServiceTest {
     @Test
     public void getRepoGlobalCandlesHistoryTest() throws Exception {
         String candleHistoryJson = new String(Files.readAllBytes(Paths.get("src/test/resources/repoav.json")));
-        String url = "/repo/shares/IBM/history?candlesize=60&startdate=2023-02-21&enddate=2023-03-15";
+        String url = "/repo/shares/IBM/history?candlesize=60&startdate=2023-02-21&enddate=2023-03-31";
         mockMvc.perform(get(url))
                 .andExpect(status().isOk())
                 .andExpect(content().json(candleHistoryJson));

@@ -7,8 +7,8 @@ App supports saving and loading data from a local MongoDB database. To use the f
 ## ⭐ Features
 - Stock prices history from MOEX ISS (https://www.moex.com/a2193)
 - Historic candles from AlphaVantage (https://www.alphavantage.co/)
-- saving data to a local repository (MongoDB)
-- uploading data for all tickers in your MongoDB database from the last date to the current one (from MOEX only)
+- saving data to a local repository (PostgreSQL)
+- uploading data for all tickers in your database from the last date to the current one (from MOEX only)
 - export candles history in CSV format
 
 ## 💻 Usage
@@ -86,7 +86,7 @@ Request parameters: similar to "3. Historic candles from Database"
 ## 🛠️ Technology stack
 - Java 17 
 - Spring Boot - version 3.2.2
-- MongoDB
+- PostgreSQL 16
 
 ## 📖 Disclaimer
 The author does not accept responsibility for actions taken on the basis of information obtained as a result of using this program. The author does not represent that the information or opinions provided are correct or complete. The information presented shouldn't be used as the sole guide for making investment decisions. Doesn't individual investment advice.

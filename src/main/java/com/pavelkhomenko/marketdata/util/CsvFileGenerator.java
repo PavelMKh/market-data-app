@@ -7,7 +7,7 @@ import org.apache.commons.csv.CSVPrinter;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,14 +17,14 @@ public class CsvFileGenerator {
     public ByteArrayInputStream writeCandlesToCsv(List<Candle> candles) {
         CSVFormat format = CSVFormat.DEFAULT.withHeader
                 ("DateTime", "Ticker", "CandleSize", "Open", "Max", "Min", "Close", "Volume");
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         try (ByteArrayOutputStream candlesOut =
                      new ByteArrayOutputStream();
              PrintWriter writer = new PrintWriter(candlesOut);
              CSVPrinter csvPrinter = new CSVPrinter(writer, format)) {
             for (Candle candle : candles) {
                 List<String> candleData = Arrays.asList(
-                        formatter.format(candle.getStartDateTime()),
+                        candle.getStartDateTime().format(formatter),
                         candle.getTicker(),
                         String.valueOf(candle.getInterval()),
                         String.valueOf(candle.getOpen()),

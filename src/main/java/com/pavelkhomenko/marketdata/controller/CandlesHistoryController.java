@@ -1,6 +1,5 @@
 package com.pavelkhomenko.marketdata.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.pavelkhomenko.marketdata.entity.Candle;
 import com.pavelkhomenko.marketdata.service.CandleHistoryService;
 import jakarta.validation.constraints.NotBlank;
@@ -42,8 +41,8 @@ public class CandlesHistoryController {
     }
     @GetMapping("/repo/shares/{ticker}/history")
     public ResponseEntity<List<Candle>> getCandlesHistoryFromRepository(@RequestParam("candlesize") int interval,
-                                                        @RequestParam("startdate") LocalDate startDate,
-                                                        @RequestParam("enddate") LocalDate endDate,
+                                                        @RequestParam("startdate") String startDate,
+                                                        @RequestParam("enddate") String endDate,
                                                         @PathVariable @NotBlank @NotEmpty String ticker) {
         return ResponseEntity.ok()
                 .body(candleHistoryService.getCandlesFromDatabase(ticker, interval, startDate, endDate));
@@ -51,8 +50,7 @@ public class CandlesHistoryController {
 
     @GetMapping("/repo/reload/moex")
     public ResponseEntity<List<Candle>> reloadRepositoryMoex(
-            @RequestParam("defaultStartDate") LocalDate defaultStartDate)
-            throws JsonProcessingException {
+            @RequestParam("defaultStartDate") String defaultStartDate) {
         return ResponseEntity.ok()
                 .body(candleHistoryService.reloadRepositoryMoex(defaultStartDate));
     }
@@ -90,8 +88,8 @@ public class CandlesHistoryController {
     @GetMapping("/repo/shares/{ticker}/export-to-csv")
     public ResponseEntity<InputStreamResource>
                 getCandlesHistoryFromRepositoryCsv(@RequestParam("candlesize") int interval,
-                                                   @RequestParam("startdate") LocalDate startDate,
-                                                   @RequestParam("enddate") LocalDate endDate,
+                                                   @RequestParam("startdate") String startDate,
+                                                   @RequestParam("enddate") String endDate,
                                                    @PathVariable @NotBlank @NotEmpty String ticker) {
         String fileName = String.format("%s_%s_%s_%s.csv", ticker, interval, startDate, endDate);
         InputStreamResource file = new InputStreamResource(candleHistoryService.loadFromRepoToCsv(ticker,

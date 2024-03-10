@@ -15,8 +15,10 @@ import org.springframework.stereotype.Service;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
 @Slf4j
@@ -35,7 +37,7 @@ public class AlphaVantageCandleProcessor {
 
     public List<Candle> getCandleSet(String ticker, int interval, String apikey, LocalDate start, LocalDate end) {
         List<String> periods = getTimeIntervals(start, end);
-        List<Candle> stockCandles = new ArrayList<>();
+        List<Candle> stockCandles = new CopyOnWriteArrayList<>();
         ObjectMapper objectMapper = new ObjectMapper();
         String candlesKey = "Time Series (" + interval + "min)";
         periods.parallelStream().forEach(period -> {
@@ -64,9 +66,7 @@ public class AlphaVantageCandleProcessor {
 
     private Candle buildCandleFromJson(JsonNode candlesJson, String date, String ticker, int interval) {
         return Candle.builder()
-                .startDateTime(Date.from(
-                        LocalDateTime.parse(date, Constants.CANDLES_DATETIME_FORMATTER)
-                                .toInstant(Constants.CANDLES_TIME_ZONE)))
+                .startDateTime(OffsetDateTime.parse(date, Constants.CANDLES_DATETIME_FORMATTER))
                 .open(Float.parseFloat(candlesJson.get(date).get("1. open").toString()
                         .replace("\"", "")))
                 .max(Float.parseFloat(candlesJson.get(date).get("2. high").toString()
