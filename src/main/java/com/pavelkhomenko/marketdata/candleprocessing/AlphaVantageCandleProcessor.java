@@ -19,6 +19,7 @@ import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -51,14 +52,10 @@ public class AlphaVantageCandleProcessor {
             JsonNode finalCandlesJson = candlesJson;
             List<String> fieldNamesList = new ArrayList<>();
             finalCandlesJson.fieldNames().forEachRemaining(fieldNamesList::add);
-
-            fieldNamesList.parallelStream().forEach(date -> {
-                try {
-                    stockCandles.add(buildCandleFromJson(finalCandlesJson, date, ticker, interval));
-                } catch (NullPointerException e) {
-                    log.warn("No data for the period {}", date);
-                }
-            });
+            List<Candle> forDateCandles = fieldNamesList.parallelStream()
+                    .map(date -> buildCandleFromJson(finalCandlesJson, date, ticker, interval))
+                    .toList();
+            stockCandles.addAll(forDateCandles);
         });
         stockCandles.sort(Comparator.comparing(Candle::getStartDateTime));
         return stockCandles;

@@ -21,6 +21,7 @@ import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
@@ -51,8 +52,10 @@ public class MoexCandleProcessor {
                 throw new CandleProcessingException("An error has occurred during processing external server data");
             }
             if (!candlesJson.isNull()) {
-                StreamSupport.stream(candlesJson.spliterator(), true)
-                        .forEach(element -> stockCandles.add(buildCandleFromJson(element, ticker, interval)));
+                List<Candle> jsonCandlesList = StreamSupport.stream(candlesJson.spliterator(), true)
+                        .map(element -> buildCandleFromJson(element, ticker, interval))
+                        .toList();
+                stockCandles.addAll(jsonCandlesList);
             }
         });
         stockCandles.sort(Comparator.comparing(Candle::getStartDateTime));
