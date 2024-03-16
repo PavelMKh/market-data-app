@@ -9,7 +9,6 @@ import com.pavelkhomenko.marketdata.exceptions.IncorrectDateException;
 import com.pavelkhomenko.marketdata.exceptions.IncorrectTickerNameException;
 import com.pavelkhomenko.marketdata.repository.CandleRepository;
 import com.pavelkhomenko.marketdata.util.CsvFileGenerator;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,13 +23,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @RequiredArgsConstructor
 @Slf4j
 public class CandleHistoryService {
-    @NotNull
     private final MoexCandleProcessor requestMoexProcessor;
-    @NotNull
     private final AlphaVantageCandleProcessor requestAlphaVantageProcessor;
-    @NotNull
     private final CandleRepository candleRepository;
-    @NotNull
     private final CsvFileGenerator csvFileGenerator;
 
     public List<Candle> getAlphaVantageCandles(String ticker, int interval, String apikey,

@@ -7,7 +7,6 @@ import com.pavelkhomenko.marketdata.Constants;
 import com.pavelkhomenko.marketdata.entity.Candle;
 import com.pavelkhomenko.marketdata.exceptions.CandleProcessingException;
 import com.pavelkhomenko.marketdata.util.HttpRequestClient;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,14 +18,11 @@ import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class AlphaVantageCandleProcessor {
-
-    @NotNull
     private final HttpRequestClient client;
 
     private String getCandlesJson(String ticker, String apikey, String month,
