@@ -26,15 +26,15 @@ public interface CandleRepository extends JpaRepository<Candle, String> {
                                         @Param("ticker") String ticker,
                                         @Param("interval") int interval);
 
-    @Query(value = "select cast(max(start_date_time) as date)" +
-            "from candles_history" +
-            "where ticker = :ticker" +
-            "and interval = :interval;",
+    @Query(value = "select cast(max(start_date_time) as date) " +
+            "from candles_history " +
+            "where ticker = :ticker " +
+            "and interval = :interval",
     nativeQuery = true)
     LocalDate getLastDateForTicker(@Param("ticker") String ticker,
                                    @Param("interval") int interval);
-    @Query(value = "select distinct(ticker)" +
-            "from candles_history" +
+    @Query(value = "select distinct(ticker) " +
+            "from candles_history " +
             "where data_source = 'MOEX';",
     nativeQuery = true)
     Set<String> findDistinctByTickerMoex();

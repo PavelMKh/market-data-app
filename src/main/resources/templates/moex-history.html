@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'Candles History - Ticker: ' + ${ticker}">Candles History</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+<h1 th:text="'Candles History - Ticker: ' + ${ticker}">Candles History</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Start Date Time</th>
+        <th>Ticker</th>
+        <th>Interval</th>
+        <th>Open Price</th>
+        <th>Max Price</th>
+        <th>Min Price</th>
+        <th>Close Price</th>
+        <th>Volume</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="candle : ${candles}">
+        <td th:text="${candle.getStartDateTime()}"></td>
+        <td th:text="${candle.getTicker()}"></td>
+        <td th:text="${candle.getInterval()}"></td>
+        <td th:text="${candle.getOpen()}"></td>
+        <td th:text="${candle.getMax()}"></td>
+        <td th:text="${candle.getMin()}"></td>
+        <td th:text="${candle.getClose()}"></td>
+        <td th:text="${candle.getVolume()}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

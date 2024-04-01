@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.pavelkhomenko</groupId>
 	<artifactId>marketdata</artifactId>
-	<version>3.0.0-SNAPSHOT</version>
+	<version>4.0.0-SNAPSHOT</version>
 	<name>marketdata</name>
 	<description>App for managing stock market data </description>
 	<properties>
@@ -56,6 +56,10 @@
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>42.7.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 
 

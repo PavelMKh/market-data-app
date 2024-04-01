@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Enter Parameters</title>
+</head>
+<body>
+<h1>Enter Parameters for Candle History</h1>
+<form th:action="@{/web/moex/history/new}" method="get">
+    Ticker: <input type="text" name="ticker" th:value="${ticker}"><br>
+    Interval: <input type="number" name="candlesize" value="60" th:value="${candlesize}"><br>
+    Start Date: <input type="date" name="startdate" th:value="${startdate}"><br>
+    End Date: <input type="date" name="enddate" th:value="${enddate}"><br>
+    <input type="submit" value="Get History">
+</form>
+</body>
+</html>

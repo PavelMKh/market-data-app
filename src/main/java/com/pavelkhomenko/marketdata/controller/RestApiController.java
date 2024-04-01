@@ -18,7 +18,8 @@ import java.util.List;
 @RestController
 @Validated
 @RequiredArgsConstructor
-public class CandlesHistoryController {
+@RequestMapping("/api")
+public class RestApiController {
     private final CandleHistoryService candleHistoryService;
 
     @GetMapping("/moex/shares/{ticker}/history")
