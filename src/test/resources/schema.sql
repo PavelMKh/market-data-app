@@ -1,14 +1,14 @@
-CREATE TABLE IF NOT EXISTS company_overview (
-                                  ticker VARCHAR(10) PRIMARY KEY NOT NULL,
-                                  name VARCHAR(255) NOT NULL,
-                                  description VARCHAR NOT NULL,
-                                  country VARCHAR(20) NOT NULL,
-                                  sector VARCHAR(50) NOT NULL,
-                                  industry VARCHAR(50) NOT NULL,
-                                  address VARCHAR(255) NOT NULL
+CREATE TABLE company_overview (
+                                  ticker VARCHAR(10) PRIMARY KEY,
+                                  name VARCHAR(255),
+                                  description VARCHAR,
+                                  country VARCHAR(20),
+                                  sector VARCHAR(50),
+                                  industry VARCHAR(50),
+                                  address VARCHAR(255)
 );
 
-CREATE TABLE IF NOT EXISTS income_statement (
+CREATE TABLE income_statement (
                                   id VARCHAR(30) PRIMARY KEY NOT NULL ,
                                   ticker VARCHAR(10) REFERENCES company_overview(ticker) ON DELETE CASCADE NOT NULL ,
                                   type VARCHAR(10) NOT NULL,
@@ -40,12 +40,12 @@ CREATE TABLE IF NOT EXISTS income_statement (
                                   netincome BIGINT
 );
 
-CREATE TABLE IF NOT EXISTS balance_sheet (
+CREATE TABLE balance_sheet (
                                id VARCHAR(30) PRIMARY KEY NOT NULL ,
                                ticker VARCHAR(10) REFERENCES company_overview(ticker) ON DELETE CASCADE NOT NULL ,
-                               fiscaldateending DATE NOT NULL,
-                               type VARCHAR(10) NOT NULL,
-                               reportedcurrency VARCHAR(10) NOT NULL,
+                               fiscaldateending DATE,
+                               type VARCHAR(10),
+                               reportedcurrency VARCHAR(10),
                                totalassets BIGINT,
                                totalcurrentassets BIGINT,
                                cashandcashequivalentsatcarryingvalue BIGINT,
@@ -84,12 +84,12 @@ CREATE TABLE IF NOT EXISTS balance_sheet (
                                commonstocksharesoutstanding BIGINT
 );
 
-CREATE TABLE IF NOT EXISTS cash_flow (
+CREATE TABLE cash_flow (
                            id VARCHAR(30) NOT NULL PRIMARY KEY,
                            ticker VARCHAR(10) REFERENCES company_overview(ticker) ON DELETE CASCADE NOT NULL,
-                           fiscaldateending DATE NOT NULL,
-                           type VARCHAR(10) NOT NULL,
-                           reportedcurrency VARCHAR(10) NOT NULL,
+                           fiscaldateending DATE,
+                           type VARCHAR(10),
+                           reportedcurrency VARCHAR(10),
                            operatingcashflow BIGINT,
                            paymentsforoperatingactivities BIGINT,
                            proceedsfromoperatingactivities BIGINT,
@@ -117,17 +117,4 @@ CREATE TABLE IF NOT EXISTS cash_flow (
                            changeincashandcashequivalents BIGINT,
                            changeinexchangerate BIGINT,
                            netincome BIGINT
-);
-
-CREATE TABLE IF NOT EXISTS candles_history (
-                                      id VARCHAR PRIMARY KEY,
-                                      start_date_time TIMESTAMP NOT NULL,
-                                      ticker VARCHAR(10) NOT NULL,
-                                      interval INTEGER NOT NULL,
-                                      data_source VARCHAR (20) NOT NULL,
-                                      open_price float4,
-                                      max_price float4,
-                                      min_price float4,
-                                      close_price float4,
-                                      volume BIGINT
 );

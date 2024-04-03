@@ -1,8 +1,8 @@
 package com.pavelkhomenko.marketdata.service;
 
 import com.pavelkhomenko.marketdata.Constants;
-import com.pavelkhomenko.marketdata.candleprocessing.AlphaVantageCandleProcessor;
-import com.pavelkhomenko.marketdata.candleprocessing.MoexCandleProcessor;
+import com.pavelkhomenko.marketdata.mapping.candles.AlphaVantageCandleProcessor;
+import com.pavelkhomenko.marketdata.mapping.candles.MoexCandleProcessor;
 import com.pavelkhomenko.marketdata.entity.Candle;
 import com.pavelkhomenko.marketdata.exceptions.IncorrectCandleSizeException;
 import com.pavelkhomenko.marketdata.exceptions.IncorrectDateException;

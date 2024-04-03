@@ -1,4 +1,4 @@
-package com.pavelkhomenko.marketdata.candleprocessing;
+package com.pavelkhomenko.marketdata.mapping.candles;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;

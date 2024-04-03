@@ -7,87 +7,69 @@ App supports saving and loading data from a local MongoDB database. To use the f
 ## ⭐ Features
 - Stock prices history from MOEX ISS (https://www.moex.com/a2193)
 - Historic candles from AlphaVantage (https://www.alphavantage.co/)
+- Financial reports from AlphaVantage: income statement, balance sheet, cash flow statement
 - Saving data to a local repository (PostgreSQL)
+- Calculation of analytical indicators
 - Uploading data for all tickers in your database from the last date to the current one (from MOEX only)
 - Export candles history in CSV format
-- Working with the application using browser
+- Web client for the most requested functions
 
 ## 💻 Usage
-### 1. Historic candles from MOEX ISS 
+### 1. Historic candles  
 Server endpoint:
 ```java
-GET /moex/shares/[ticker]/history
+GET /moex/shares/[ticker]/history // from MOEX ISS
+GET /global/shares/[ticker]/history // from AlphaVantage
+GET /repo/shares/[ticker]/history // history from database
 ```
 Request parameters:
 * `ticker` - stock ticker
 * `candlesize` - candle time period. Possible values: 1 (1 minute), 10 (10 minutes), 60 (1 hour), 24 (1 day), 7 (1 week), 31 (1 month) or 4 (1 quarter)
 * `startdate` - start date for receiving candles
 * `enddate` - end date for receiving candles
+* `apikey` - API key from AlphaVantage (parameter for AlphaVantage only)
 
-### 2. Historic candles from AlphaVantage
-Server endpoint:
+Example of request:
 ```java
-GET /global/shares/[ticker]/history
+GET /global/shares/IBM/history?candlesize=60&startdate=2023-03-01&enddate=2023-04-01&apikey=demo
 ```
-Candles can be received for a whole month only
+
+### 2. Getting company reports  
+**IMPORTANT!** In this paragraph and further in all methods of obtaining reports. If the AlphaVantage API returns the value “None” for any of the value from report, it is returned and saved to the database as a special value -1. Be careful and keep this in mind.  
+The method allows you to obtain an income statement. First, the request is sent to the database. If the values are found, a response from the database is returned. If not found, a request is sent to AlphaVantage. The received data is saved to the database.
+```java
+GET /api/reports/{ticker}/overview // company overview
+GET /api/reports/{ticker}/pnl // income statement
+GET /api/reports/{ticker}/bs // balance sheet
+GET /api/reports/{ticker}/cf // cash flow
+```
+
 Request parameters:
-* `ticker` - stock ticker
-* `candlesize` - candle time period. Possible values: 1 (1 minute), 10 (10 minutes), 60 (1 hour), 24 (1 day), 7 (1 week), 31 (1 month) or 4 (1 quarter)
-* `startdate` - first day of the initial month for which candles will be requested
-* `enddate` - first day of the last month for which candles will be requested
+* `ticker` - company stock ticker
 * `apikey` - API key from AlphaVantage
 
-Example of request:
-```java
-GET /global/shares/IBM/history?candlesize=60&startdate=2023-03-01&enddate=2023-04-01&apikey=token
-```
 
-### 3. Historic candles from Database
-```java
-GET /repo/shares/[ticker]/history
-```
-Request parameters:
-* `ticker` - stock ticker
-* `candlesize` - candle time period. Possible values: 1 (1 minute), 10 (10 minutes), 60 (1 hour), 24 (1 day), 7 (1 week), 31 (1 month) or 4 (1 quarter)
-* `startdate` - first day of the initial month for which candles will be requested
-* `enddate` - first day of the last month for which candles will be requested
-
-Example of request:
-```java
-GET /repo/shares/IBM/history?candlesize=60&startdate=2023-02-21&enddate=2023-03-15
-```
-
-### 4. Upload historic candles to Database
+### 3. Upload historic candles to Database
 ```java
 GET /repo/reload/moex
 ```
 Request parameters:
 * `defaultStartDate` - if there is no date for the specified candle size for ticker in your database, additional loading will begin from this date
 
-Example of request:
-```java
-GET /repo/reload/moex?defaultStartDate=2024-02-01
-```
-### 5. Export candles to CSV
+### 4. Export candles to CSV
 #### Request CSV history candles from MOEX ISS:
 ```java
-GET /moex/shares/[ticker]/export-to-csv
+GET /api/moex/shares/[ticker]/export-to-csv // get CSV from MOEX ISS
+GET /api/global/shares/[ticker]/export-to-csv // get CSV from AlphaVantage
+GET /api/repo/shares/[ticker]/export-to-csv // get CSV from database
 ```
-Request parameters: similar to "1. Historic candles from MOEX ISS"  
-#### Request CSV history candles from AlphaVantage:
-```java
-GET /global/shares/[ticker]/export-to-csv
-```
-Request parameters: similar to "2. Historic candles from AlphaVantage" 
-#### Request CSV history candles from DataBase:  
-```java
-GET /repo/shares/[ticker]/export-to-csv
-```  
-Request parameters: similar to "3. Historic candles from Database"
+Request parameters: same as 1-3 above
+
 ## 🛠️ Technology stack
 - Java 17 
 - Spring Boot - version 3.2.2
 - PostgreSQL 16
+- JDBC, JPA
 - Spring MVC
 
 ## 📖 Disclaimer
