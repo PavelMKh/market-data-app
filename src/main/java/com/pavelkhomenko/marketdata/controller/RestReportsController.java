@@ -1,6 +1,7 @@
 package com.pavelkhomenko.marketdata.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.pavelkhomenko.marketdata.dto.CompanyDataDto;
 import com.pavelkhomenko.marketdata.entity.BalanceSheet;
 import com.pavelkhomenko.marketdata.entity.CashFlow;
 import com.pavelkhomenko.marketdata.entity.Company;
@@ -46,5 +47,12 @@ public class RestReportsController {
                                       @RequestParam(name = "apikey") @NonNull String apiKey)
             throws JsonProcessingException {
         return companyDataService.getCashFlow(ticker, apiKey);
+    }
+
+    @GetMapping("/{ticker}/all")
+    public CompanyDataDto getAllReports(@PathVariable @NonNull String ticker,
+                                              @RequestParam(name = "apikey") @NonNull String apiKey)
+            throws JsonProcessingException {
+        return companyDataService.getAllCompanyData(ticker, apiKey);
     }
 }

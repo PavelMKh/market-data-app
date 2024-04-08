@@ -84,6 +84,7 @@ public class CompanyDataService {
                 .company(getCompanyOverview(ticker, apiKey))
                 .incomeStatement(getIncomeStatement(ticker, apiKey))
                 .balanceSheet(getBalanceSheet(ticker, apiKey))
+                .cashFlow(getCashFlow(ticker, apiKey))
                 .build();
     }
 }
