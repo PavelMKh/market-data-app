@@ -1,6 +1,6 @@
 package com.pavelkhomenko.marketdata.aspect;
 
-import com.pavelkhomenko.marketdata.exceptions.CandleProcessingException;
+import com.pavelkhomenko.marketdata.exceptions.ProcessingException;
 import com.pavelkhomenko.marketdata.exceptions.IncorrectCandleSizeException;
 import com.pavelkhomenko.marketdata.exceptions.IncorrectDateException;
 import com.pavelkhomenko.marketdata.exceptions.IncorrectTickerNameException;
@@ -21,7 +21,7 @@ public class ExceptionHandlerAspect {
         return Map.of("error", e.getMessage());
     }
 
-    @ExceptionHandler(CandleProcessingException.class)
+    @ExceptionHandler(ProcessingException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Map<String, String> handleRuntimeException(RuntimeException e) {
         return Map.of("error", e.getMessage());

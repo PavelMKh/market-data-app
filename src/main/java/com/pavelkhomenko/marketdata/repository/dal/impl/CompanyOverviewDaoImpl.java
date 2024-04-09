@@ -1,6 +1,7 @@
-package com.pavelkhomenko.marketdata.repository.dal;
+package com.pavelkhomenko.marketdata.repository.dal.impl;
 
 import com.pavelkhomenko.marketdata.entity.Company;
+import com.pavelkhomenko.marketdata.repository.dal.dao.CompanyOverviewDao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;

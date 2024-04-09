@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -54,5 +55,12 @@ public class RestReportsController {
                                               @RequestParam(name = "apikey") @NonNull String apiKey)
             throws JsonProcessingException {
         return companyDataService.getAllCompanyData(ticker, apiKey);
+    }
+
+    @GetMapping("/upload")
+    public Map<String, List<String>> uploadData(@RequestParam @NonNull String apikey) {
+        List<String> uploadedTickers = companyDataService.uploadData(apikey);
+        return Map.of("Reports for the following companies have been loaded into the database",
+                uploadedTickers);
     }
 }

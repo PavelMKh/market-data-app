@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pavelkhomenko.marketdata.Constants;
 import com.pavelkhomenko.marketdata.entity.Candle;
-import com.pavelkhomenko.marketdata.exceptions.CandleProcessingException;
+import com.pavelkhomenko.marketdata.exceptions.ProcessingException;
 import com.pavelkhomenko.marketdata.util.HttpRequestClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +43,7 @@ public class AlphaVantageCandleProcessor {
                 candlesJson = objectMapper.readTree(getCandlesJson(ticker, apikey, period, interval))
                         .get(candlesKey);
             } catch (JsonProcessingException e) {
-                throw new CandleProcessingException("An error has occurred during processing external server data");
+                throw new ProcessingException("An error has occurred during processing external server data");
             }
             JsonNode finalCandlesJson = candlesJson;
             List<String> fieldNamesList = new ArrayList<>();

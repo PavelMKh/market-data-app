@@ -6,18 +6,17 @@ import com.pavelkhomenko.marketdata.entity.BalanceSheet;
 import com.pavelkhomenko.marketdata.entity.CashFlow;
 import com.pavelkhomenko.marketdata.entity.Company;
 import com.pavelkhomenko.marketdata.entity.IncomeStatement;
+import com.pavelkhomenko.marketdata.exceptions.ProcessingException;
 import com.pavelkhomenko.marketdata.mapping.reports.BalanceSheetProcessing;
 import com.pavelkhomenko.marketdata.mapping.reports.CashFlowProcessing;
 import com.pavelkhomenko.marketdata.mapping.reports.CompanyOverviewProcessing;
 import com.pavelkhomenko.marketdata.mapping.reports.IncomeStatementProcessing;
-import com.pavelkhomenko.marketdata.repository.dal.BalanceSheetDao;
-import com.pavelkhomenko.marketdata.repository.dal.CashFlowDao;
-import com.pavelkhomenko.marketdata.repository.dal.CompanyOverviewDao;
-import com.pavelkhomenko.marketdata.repository.dal.IncomeStatementDao;
+import com.pavelkhomenko.marketdata.repository.dal.dao.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,9 +32,11 @@ public class CompanyDataService {
     private final BalanceSheetDao bsDao;
     private final CashFlowDao cashFlowDao;
     private final CashFlowProcessing cfProcessing;
+    private final AnalyticalReportsDao analyticalReportsDao;
 
     public Company getCompanyOverview(String ticker, String apiKey)
             throws JsonProcessingException {
+        log.info("Requesting " + ticker + "overview from database");
         Optional<Company> company = companyOverviewDao.getCompanyOverview(ticker);
         if (company.isEmpty()) {
             log.info("Requesting " + ticker + " overview from AlphaVantage");
@@ -47,6 +48,7 @@ public class CompanyDataService {
     }
 
     public List<IncomeStatement> getIncomeStatement(String ticker, String apiKey) throws JsonProcessingException {
+        log.info("Requesting " + ticker + "income statement from database");
         List<IncomeStatement> incomeStatements = pnlDao.getPnl(ticker);
         if (incomeStatements.isEmpty()) {
             log.info(ticker + " income statement not found in the database");
@@ -58,6 +60,7 @@ public class CompanyDataService {
     }
 
     public List<BalanceSheet> getBalanceSheet(String ticker, String apiKey) throws JsonProcessingException {
+        log.info("Requesting " + ticker + "balance sheet from database");
         List<BalanceSheet> balanceSheets = bsDao.getBalanceSheet(ticker);
         if (balanceSheets.isEmpty()) {
             log.info(ticker + " balance sheet not found in the database");
@@ -69,6 +72,7 @@ public class CompanyDataService {
     }
 
     public List<CashFlow> getCashFlow(String ticker, String apiKey) throws JsonProcessingException {
+        log.info("Requesting " + ticker + "cash flow from database");
         List<CashFlow> cashFlow = cashFlowDao.getCf(ticker);
         if (cashFlow.isEmpty()) {
             log.info(ticker + " cash flow not found in the database");
@@ -86,5 +90,58 @@ public class CompanyDataService {
                 .balanceSheet(getBalanceSheet(ticker, apiKey))
                 .cashFlow(getCashFlow(ticker, apiKey))
                 .build();
+    }
+
+    public List<String> uploadData(String apiKey) {
+        List<String> tickersForUploading = analyticalReportsDao.getTickerForUploading();
+        uploadBs(tickersForUploading, apiKey);
+        uploadCf(tickersForUploading, apiKey);
+        uploadPnl(tickersForUploading, apiKey);
+        return tickersForUploading;
+    }
+
+    private void uploadBs(List<String> tickersForUploading, String apiKey) {
+        List<BalanceSheet> bsReports = tickersForUploading.stream()
+                .parallel()
+                .map(ticker -> {
+                    try {
+                        return bsProcessing.getBsList(ticker, apiKey);
+                    } catch (JsonProcessingException e) {
+                        throw new ProcessingException("Balance sheet report processing error");
+                    }
+                })
+                .flatMap(Collection::parallelStream)
+                .toList();
+        bsDao.saveBalanceSheet(bsReports);
+    }
+
+    private void uploadCf(List<String> tickersForUploading, String apiKey) {
+        List<CashFlow> cfReports = tickersForUploading.stream()
+                .parallel()
+                .map(ticker -> {
+                    try {
+                        return cfProcessing.getCfList(ticker, apiKey);
+                    } catch (JsonProcessingException e) {
+                        throw new ProcessingException("Cash flow report processing error");
+                    }
+                })
+                .flatMap(Collection::parallelStream)
+                .toList();
+        cashFlowDao.saveCf(cfReports);
+    }
+
+    private void uploadPnl(List<String> tickersForUploading, String apiKey) {
+        List<IncomeStatement> pnlReports = tickersForUploading.stream()
+                .parallel()
+                .map(ticker -> {
+                    try {
+                        return pnlProcessing.getPnlList(ticker, apiKey);
+                    } catch (JsonProcessingException e) {
+                        throw new ProcessingException("Income statement report processing error");
+                    }
+                })
+                .flatMap(Collection::parallelStream)
+                .toList();
+        pnlDao.savePnl(pnlReports);
     }
 }

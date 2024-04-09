@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.pavelkhomenko.marketdata.Constants;
 import com.pavelkhomenko.marketdata.entity.Candle;
-import com.pavelkhomenko.marketdata.exceptions.CandleProcessingException;
+import com.pavelkhomenko.marketdata.exceptions.ProcessingException;
 import com.pavelkhomenko.marketdata.util.HttpRequestClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +45,7 @@ public class MoexCandleProcessor {
                 candlesJson = (ArrayNode) objectMapper.readTree(getCandlesJson(ticker, interval, LocalDate.parse(period.get(0)),
                         LocalDate.parse(period.get(1)))).get("candles").get("data");
             } catch (JsonProcessingException e) {
-                throw new CandleProcessingException("An error has occurred during processing external server data");
+                throw new ProcessingException("An error has occurred during processing external server data");
             }
             if (!candlesJson.isNull()) {
                 List<Candle> jsonCandlesList = StreamSupport.stream(candlesJson.spliterator(), true)

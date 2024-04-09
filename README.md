@@ -13,6 +13,7 @@ App supports saving and loading data from a local MongoDB database. To use the f
 - Uploading data for all tickers in your database from the last date to the current one (from MOEX only)
 - Export candles history in CSV format
 - Web client for the most requested functions
+- Upload and updating financial reports for all tickers in your DB
 
 ## 💻 Usage
 ### 1. Historic candles  
@@ -42,10 +43,11 @@ GET /api/reports/{ticker}/overview // company overview
 GET /api/reports/{ticker}/pnl // income statement
 GET /api/reports/{ticker}/bs // balance sheet
 GET /api/reports/{ticker}/cf // cash flow
+GET /api/reports/upload // upload reports for all tickets in company_overview table
 ```
 
 Request parameters:
-* `ticker` - company stock ticker
+* `ticker` - company stock ticker (not necessary for upload method)
 * `apikey` - API key from AlphaVantage
 
 

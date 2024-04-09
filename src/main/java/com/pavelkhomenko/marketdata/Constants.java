@@ -10,4 +10,5 @@ public class Constants {
     public static final Set<Integer> ALPHA_VANTAGE_CANDLE_SIZE = new HashSet<>(Set.of(1, 5, 15, 30, 60));
     public static final DateTimeFormatter CANDLES_DATETIME_FORMATTER =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneOffset.UTC);
+    public static final int FREE_API_LIMITATION = 24;
 }

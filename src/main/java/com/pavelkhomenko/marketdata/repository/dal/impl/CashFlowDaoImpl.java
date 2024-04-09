@@ -1,6 +1,7 @@
-package com.pavelkhomenko.marketdata.repository.dal;
+package com.pavelkhomenko.marketdata.repository.dal.impl;
 
 import com.pavelkhomenko.marketdata.entity.CashFlow;
+import com.pavelkhomenko.marketdata.repository.dal.dao.CashFlowDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
