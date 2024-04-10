@@ -38,7 +38,7 @@
 </head>
 <body>
 <h1>Enter Parameters for Candle History</h1>
-<form th:action="@{/web/moex/history/new}" method="get">
+<form th:action="@{/web/global/history/new}" method="get">
     <label for="ticker">Ticker:</label>
     <input type="text" name="ticker" th:value="${ticker}" id="ticker"><br>
     <label for="candlesize">Interval:</label>
@@ -47,6 +47,8 @@
     <input type="date" name="startdate" th:value="${startdate}" id="startdate"><br>
     <label for="enddate">End Date:</label>
     <input type="date" name="enddate" th:value="${enddate}" id="enddate"><br>
+    <label for="apikey">API key:</label>
+    <input type="text" name="apikey" th:value="${apikey}" id="apikey"><br>
     <input type="submit" value="Get History">
 </form>
 </body>

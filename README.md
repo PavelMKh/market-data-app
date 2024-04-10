@@ -67,6 +67,10 @@ GET /api/repo/shares/[ticker]/export-to-csv // get CSV from database
 ```
 Request parameters: same as 1-3 above
 
+### 5. WebClient
+![img.png](img.png)
+![img_1.png](img_1.png)
+
 ## 🛠️ Technology stack
 - Java 17 
 - Spring Boot - version 3.2.2

@@ -5,12 +5,44 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Candles History</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        p {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
 <h1>Welcome to Market Data App!</h1>
 <p>This page provides access to various candle history data.</p>
 <ul>
     <li><a href="/web/moex/history">Get Candles History from MOEX</a></li>
+    <li><a href="/web/global/history">Get Candles History from Global market</a></li>
+    <li><a href="/web/repo/history">Get Candles History from Database</a></li>
 </ul>
 </body>
 </html>
