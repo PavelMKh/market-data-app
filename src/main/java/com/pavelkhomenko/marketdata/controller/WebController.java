@@ -4,12 +4,17 @@ import com.pavelkhomenko.marketdata.entity.Candle;
 import com.pavelkhomenko.marketdata.service.CandleHistoryService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -89,4 +94,29 @@ public class WebController {
         model.addAttribute("end", LocalDate.now());
         return "repo-history-form";
     }
+
+    @GetMapping("/moex/history/csv")
+    public String getCandlesHistoryMoexCsvWeb(Model model) {
+        model.addAttribute("candlesize", 60);
+        model.addAttribute("start", LocalDate.now().minusWeeks(1));
+        model.addAttribute("end", LocalDate.now());
+        return "moex-history-form-csv";
+    }
+
+
+    @GetMapping("/moex/history/csv/new")
+    public ResponseEntity<InputStreamResource>
+    getCandlesHistoryMoexCsv(@RequestParam("candlesize") int interval,
+                             @RequestParam("startdate") LocalDate start,
+                             @RequestParam("enddate") LocalDate end,
+                             @RequestParam("ticker") String ticker) {
+        String fileName = String.format("%s_%s_%s_%s.csv", ticker, interval, start, end);
+        InputStreamResource file = new InputStreamResource(candleHistoryService.loadFromMoexToCsv(ticker,
+                interval, start, end));
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)
+                .contentType(MediaType.parseMediaType("application/csv"))
+                .body(file);
+    }
+
 }
