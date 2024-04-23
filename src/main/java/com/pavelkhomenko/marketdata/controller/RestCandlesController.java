@@ -61,7 +61,7 @@ public class RestCandlesController {
                 getCandlesHistoryMoexCsv(@RequestParam("candlesize") int interval,
                                          @RequestParam("startdate") LocalDate start,
                                          @RequestParam("enddate") LocalDate end,
-                                         @PathVariable String ticker) {
+                                         @PathVariable @NotEmpty @NotBlank String ticker) {
         String fileName = String.format("%s_%s_%s_%s.csv", ticker, interval, start, end);
         InputStreamResource file = new InputStreamResource(candleHistoryService.loadFromMoexToCsv(ticker,
                 interval, start, end));

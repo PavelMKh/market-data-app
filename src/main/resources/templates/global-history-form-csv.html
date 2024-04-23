@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Enter Parameters</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="number"], input[type="date"] {
+            padding: 5px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        input[type="submit"] {
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #3e8e41;
+        }
+    </style>
+</head>
+<body>
+<h1>Enter Parameters for Candle History</h1>
+<form th:action="@{/web/global/history/csv/new}" method="get">
+    <label for="ticker">Ticker:</label>
+    <input type="text" name="ticker" th:value="${ticker}" id="ticker"><br>
+    <label for="candlesize">Interval:</label>
+    <input type="number" name="candlesize" value="60" th:value="${candlesize}" id="candlesize"><br>
+    <label for="startdate">Start Date:</label>
+    <input type="date" name="startdate" th:value="${startdate}" id="startdate"><br>
+    <label for="enddate">End Date:</label>
+    <input type="date" name="enddate" th:value="${enddate}" id="enddate"><br>
+    <label for="apikey">API key:</label>
+    <input type="text" name="apikey" th:value="${apikey}" id="apikey"><br>
+    <input type="submit" value="Get History (CSV file)">
+</form>
+</body>
+</html>

@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -113,6 +112,30 @@ public class WebController {
         String fileName = String.format("%s_%s_%s_%s.csv", ticker, interval, start, end);
         InputStreamResource file = new InputStreamResource(candleHistoryService.loadFromMoexToCsv(ticker,
                 interval, start, end));
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)
+                .contentType(MediaType.parseMediaType("application/csv"))
+                .body(file);
+    }
+
+    @GetMapping("/global/history/csv")
+    public String getCandlesHistoryGlobalCsvWeb(Model model) {
+        model.addAttribute("candlesize", 60);
+        model.addAttribute("start", LocalDate.now().minusWeeks(1));
+        model.addAttribute("end", LocalDate.now());
+        return "global-history-form-csv";
+    }
+
+    @GetMapping("/global/history/csv/new")
+    public ResponseEntity<InputStreamResource>
+    getCandlesHistoryGlobalCsv(@RequestParam("candlesize") int interval,
+                               @RequestParam("startdate") LocalDate startDate,
+                               @RequestParam("enddate") LocalDate endDate,
+                               @RequestParam("apikey") String apikey,
+                               @RequestParam("ticker") String ticker) {
+        String fileName = String.format("%s_%s_%s_%s.csv", ticker, interval, startDate, endDate);
+        InputStreamResource file = new InputStreamResource(candleHistoryService.loadFromAlphaVantageToCsv(ticker,
+                interval, apikey, startDate, endDate));
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)
                 .contentType(MediaType.parseMediaType("application/csv"))
