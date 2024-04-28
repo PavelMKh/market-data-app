@@ -2,6 +2,8 @@ package com.pavelkhomenko.marketdata.controller;
 
 import com.pavelkhomenko.marketdata.entity.Candle;
 import com.pavelkhomenko.marketdata.service.CandleHistoryService;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
@@ -136,6 +138,29 @@ public class WebController {
         String fileName = String.format("%s_%s_%s_%s.csv", ticker, interval, startDate, endDate);
         InputStreamResource file = new InputStreamResource(candleHistoryService.loadFromAlphaVantageToCsv(ticker,
                 interval, apikey, startDate, endDate));
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)
+                .contentType(MediaType.parseMediaType("application/csv"))
+                .body(file);
+    }
+
+    @GetMapping("/repo/history/csv")
+    public String getCandlesHistoryRepoCsvWeb(Model model) {
+        model.addAttribute("candlesize", 60);
+        model.addAttribute("start", LocalDate.now().minusWeeks(1));
+        model.addAttribute("end", LocalDate.now());
+        return "repo-history-form-csv";
+    }
+
+    @GetMapping("/repo/history/csv/new")
+    public ResponseEntity<InputStreamResource>
+    getCandlesHistoryFromRepositoryCsv(@RequestParam("candlesize") int interval,
+                                       @RequestParam("startdate") String startDate,
+                                       @RequestParam("enddate") String endDate,
+                                       @RequestParam("ticker") String ticker) {
+        String fileName = String.format("%s_%s_%s_%s.csv", ticker, interval, startDate, endDate);
+        InputStreamResource file = new InputStreamResource(candleHistoryService.loadFromRepoToCsv(ticker,
+                interval, startDate, endDate));
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)
                 .contentType(MediaType.parseMediaType("application/csv"))
