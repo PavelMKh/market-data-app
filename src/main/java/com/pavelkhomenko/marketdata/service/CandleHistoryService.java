@@ -30,6 +30,9 @@ public class CandleHistoryService {
 
     public List<Candle> getAlphaVantageCandles(String ticker, int interval, String apikey,
                                               LocalDate start, LocalDate end) {
+        log.info("Candle history from AlphaVantage requested: ticker - " + ticker +
+                " interval - " + interval + " start date - " + start +
+                " end date - " + end);
         if (LocalDate.now().isBefore(start) || LocalDate.now().isBefore(end)) {
             throw new IncorrectDateException("Future dates cannot be query parameters");
         }
@@ -47,6 +50,9 @@ public class CandleHistoryService {
 
     public List<Candle> getMoexCandles(String ticker, int interval, LocalDate start,
                                       LocalDate end) {
+        log.info("Candle history from MOEX requested: ticker - " + ticker +
+                " interval - " + interval + " start date - " + start +
+                " end date - " + end);
         if (LocalDate.now().isBefore(start) || LocalDate.now().isBefore(end)) {
             throw new IncorrectDateException("Future dates cannot be query parameters");
         }
@@ -68,11 +74,15 @@ public class CandleHistoryService {
 
     public List<Candle> getCandlesFromDatabase(String ticker, int interval, String start,
                                                String end) {
+        log.info("Candle history from Database requested: ticker - " + ticker +
+                " interval - " + interval + " start date - " + start +
+                " end date - " + end);
         return candleRepository.getCandlesBetweenDates(convertStringToOffsetDateTime(start),
                 convertStringToOffsetDateTime(end), ticker, interval);
     }
 
     public List<Candle> reloadRepositoryMoex(String defaultStartDate)  {
+        log.info("Reloading MOEX shares repo requested");
         Set<String> moexTickers = candleRepository.findDistinctByTickerMoex();
         List<Candle> reloadedCandles = new CopyOnWriteArrayList<>();
         LocalDate currentDate = LocalDate.now();
@@ -100,6 +110,9 @@ public class CandleHistoryService {
                                                    int interval,
                                                    LocalDate start,
                                                    LocalDate end) {
+        log.info("MOEX candle history CSV file requested: ticker - " + ticker +
+                " interval - " + interval + " start date - " + start +
+                " end date - " + end);
         List<Candle> candles = getMoexCandles(ticker, interval, start, end);
         return csvFileGenerator.writeCandlesToCsv(candles);
     }
@@ -109,6 +122,9 @@ public class CandleHistoryService {
                                                           String apikey,
                                                           LocalDate start,
                                                           LocalDate end) {
+        log.info("AlphaVantage candle history CSV file requested: ticker - " + ticker +
+                " interval - " + interval + " start date - " + start +
+                " end date - " + end);
         List<Candle> candles = getAlphaVantageCandles(ticker, interval, apikey, start, end);
         return csvFileGenerator.writeCandlesToCsv(candles);
     }
@@ -117,6 +133,9 @@ public class CandleHistoryService {
                                                   int interval,
                                                   String start,
                                                   String end) {
+        log.info("Repo candle history CSV file requested: ticker - " + ticker +
+                " interval - " + interval + " start date - " + start +
+                " end date - " + end);
         List<Candle> candles = getCandlesFromDatabase(ticker, interval, start, end);
         return csvFileGenerator.writeCandlesToCsv(candles);
     }
