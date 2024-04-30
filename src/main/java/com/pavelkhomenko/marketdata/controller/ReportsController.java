@@ -19,7 +19,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Validated
 @RequestMapping("/api/reports")
-public class RestReportsController {
+public class ReportsController {
     private final CompanyDataService companyDataService;
 
     @GetMapping("/{ticker}/overview")

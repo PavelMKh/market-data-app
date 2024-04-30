@@ -31,7 +31,7 @@ public class LoggingAspect {
                 requestArgs[3], requestArgs[1], requestArgs[2], requestArgs[0]);
     }
 
-    @Before("execution(* com.pavelkhomenko.marketdata.controller.RestCandlesController.reloadRepositoryMoex(..))")
+    @Before("execution(* com.pavelkhomenko.marketdata.controller.CandlesController.reloadRepositoryMoex(..))")
     public void logUploadingCandlesIntoDatabase() {
         log.info("uploading candles into database has started");
     }

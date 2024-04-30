@@ -131,3 +131,10 @@ CREATE TABLE IF NOT EXISTS candles_history (
                                       close_price float4,
                                       volume BIGINT
 );
+CREATE TABLE IF NOT EXISTS commodities (
+                                    id varchar(20) NOT NULL,
+                                    "name" varchar(15) NOT NULL,
+                                    "date" date NOT NULL,
+                                    value float4 NOT NULL,
+                                    CONSTRAINT commodities_pk PRIMARY KEY (id)
+);

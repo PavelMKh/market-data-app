@@ -118,3 +118,11 @@ CREATE TABLE cash_flow (
                            changeinexchangerate BIGINT,
                            netincome BIGINT
 );
+
+CREATE TABLE commodities (
+                                           id varchar(20) NOT NULL,
+                                           "name" varchar(15) NOT NULL,
+                                           "date" date NOT NULL,
+                                           value float4 NOT NULL,
+                                           CONSTRAINT commodities_pk PRIMARY KEY (id)
+);
