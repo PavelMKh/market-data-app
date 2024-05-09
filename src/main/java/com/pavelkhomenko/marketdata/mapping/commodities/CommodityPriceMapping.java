@@ -10,18 +10,17 @@ import org.springframework.stereotype.Component;
 
 import java.net.URI;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Component
-public class CommoditiesPriceProcessor {
+public class CommodityPriceMapping {
     private final HttpRequestClient httpClient;
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public CommoditiesPriceProcessor(HttpRequestClient httpClient, ObjectMapper objectMapper) {
+    public CommodityPriceMapping(HttpRequestClient httpClient, ObjectMapper objectMapper) {
         this.httpClient = httpClient;
         this.objectMapper = objectMapper;
     }
@@ -34,7 +33,6 @@ public class CommoditiesPriceProcessor {
 
     public List<Commodity> getCommodityPrices(String commodity, String interval, String apikey) throws JsonProcessingException {
         String priceJson = getPriceJson(commodity, interval, apikey);
-        List<Commodity> commodities = new ArrayList<>();
         JsonNode priceNodes = objectMapper.readTree(priceJson).get("data");
         return StreamSupport.stream(priceNodes.spliterator(), true)
                 .parallel()
@@ -42,6 +40,7 @@ public class CommoditiesPriceProcessor {
                     return new Commodity(commodity + priceNode.get("date").asText(),
                             commodity,
                             LocalDate.parse(priceNode.get("date").asText()),
+                            interval,
                             Float.parseFloat(priceNode.get("value").asText()));
                 })
                 .collect(Collectors.toList());

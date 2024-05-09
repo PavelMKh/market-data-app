@@ -31,6 +31,8 @@ public class Commodity {
     @NotNull
     private LocalDate date;
     @Column(nullable = false)
+    private String interval;
+    @Column(nullable = false)
     @NotNull
     private double value;
 }

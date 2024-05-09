@@ -22,7 +22,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class AlphaVantageCandleProcessor {
+public class AlphaVantageCandleMapping {
     private final HttpRequestClient client;
 
     private String getCandlesJson(String ticker, String apikey, String month,

@@ -7,10 +7,10 @@ import com.pavelkhomenko.marketdata.entity.CashFlow;
 import com.pavelkhomenko.marketdata.entity.Company;
 import com.pavelkhomenko.marketdata.entity.IncomeStatement;
 import com.pavelkhomenko.marketdata.exceptions.ProcessingException;
-import com.pavelkhomenko.marketdata.mapping.reports.BalanceSheetProcessing;
-import com.pavelkhomenko.marketdata.mapping.reports.CashFlowProcessing;
-import com.pavelkhomenko.marketdata.mapping.reports.CompanyOverviewProcessing;
-import com.pavelkhomenko.marketdata.mapping.reports.IncomeStatementProcessing;
+import com.pavelkhomenko.marketdata.mapping.reports.BalanceSheetMapping;
+import com.pavelkhomenko.marketdata.mapping.reports.CashFlowMapping;
+import com.pavelkhomenko.marketdata.mapping.reports.CompanyOverviewMapping;
+import com.pavelkhomenko.marketdata.mapping.reports.IncomeStatementMapping;
 import com.pavelkhomenko.marketdata.repository.dal.dao.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,14 +24,14 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 public class CompanyDataService {
-    private final CompanyOverviewProcessing companyOverviewProcessing;
+    private final CompanyOverviewMapping companyOverviewMapping;
     private final CompanyOverviewDao companyOverviewDao;
-    private final IncomeStatementProcessing pnlProcessing;
+    private final IncomeStatementMapping pnlProcessing;
     private final IncomeStatementDao pnlDao;
-    private final BalanceSheetProcessing bsProcessing;
+    private final BalanceSheetMapping bsProcessing;
     private final BalanceSheetDao bsDao;
     private final CashFlowDao cashFlowDao;
-    private final CashFlowProcessing cfProcessing;
+    private final CashFlowMapping cfProcessing;
     private final AnalyticalReportsDao analyticalReportsDao;
 
     public Company getCompanyOverview(String ticker, String apiKey)
@@ -40,7 +40,7 @@ public class CompanyDataService {
         Optional<Company> company = companyOverviewDao.getCompanyOverview(ticker);
         if (company.isEmpty()) {
             log.info("Requesting " + ticker + " overview from AlphaVantage");
-            Company companyFromAv = companyOverviewProcessing.getOverview(ticker, apiKey);
+            Company companyFromAv = companyOverviewMapping.getOverview(ticker, apiKey);
             companyOverviewDao.saveCompanyOverview(companyFromAv);
             return companyFromAv;
         }

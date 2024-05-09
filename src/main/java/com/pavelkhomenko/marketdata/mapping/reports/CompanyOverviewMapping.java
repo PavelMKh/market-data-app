@@ -12,7 +12,7 @@ import java.net.URI;
 
 @Component
 @RequiredArgsConstructor
-public class CompanyOverviewProcessing {
+public class CompanyOverviewMapping {
     private final HttpRequestClient client;
     private final ObjectMapper objectMapper = new ObjectMapper();
 

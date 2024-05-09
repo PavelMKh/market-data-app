@@ -1,8 +1,8 @@
 package com.pavelkhomenko.marketdata.service;
 
 import com.pavelkhomenko.marketdata.Constants;
-import com.pavelkhomenko.marketdata.mapping.candles.AlphaVantageCandleProcessor;
-import com.pavelkhomenko.marketdata.mapping.candles.MoexCandleProcessor;
+import com.pavelkhomenko.marketdata.mapping.candles.AlphaVantageCandleMapping;
+import com.pavelkhomenko.marketdata.mapping.candles.MoexCandleMapping;
 import com.pavelkhomenko.marketdata.entity.Candle;
 import com.pavelkhomenko.marketdata.exceptions.IncorrectCandleSizeException;
 import com.pavelkhomenko.marketdata.exceptions.IncorrectDateException;
@@ -23,8 +23,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @RequiredArgsConstructor
 @Slf4j
 public class CandleHistoryService {
-    private final MoexCandleProcessor requestMoexProcessor;
-    private final AlphaVantageCandleProcessor requestAlphaVantageProcessor;
+    private final MoexCandleMapping requestMoexProcessor;
+    private final AlphaVantageCandleMapping requestAlphaVantageProcessor;
     private final CandleRepository candleRepository;
     private final CsvFileGenerator csvFileGenerator;
 

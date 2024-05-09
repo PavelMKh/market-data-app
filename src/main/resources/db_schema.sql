@@ -135,6 +135,7 @@ CREATE TABLE IF NOT EXISTS commodities (
                                     id varchar(20) NOT NULL,
                                     "name" varchar(15) NOT NULL,
                                     "date" date NOT NULL,
+                                    interval varchar(10) not null,
                                     value float4 NOT NULL,
                                     CONSTRAINT commodities_pk PRIMARY KEY (id)
 );

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.pavelkhomenko.marketdata.entity.IncomeStatement;
+import com.pavelkhomenko.marketdata.entity.BalanceSheet;
 import com.pavelkhomenko.marketdata.util.HttpRequestClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,48 +16,47 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 @Component
-public class IncomeStatementProcessing {
+public class BalanceSheetMapping {
     private final HttpRequestClient httpRequestClient;
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public IncomeStatementProcessing(HttpRequestClient httpRequestClient) {
+    public BalanceSheetMapping(HttpRequestClient httpRequestClient) {
         this.httpRequestClient = httpRequestClient;
         this.objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
     }
 
-    public List<IncomeStatement> getPnlList(String ticker, String apiKey) throws JsonProcessingException {
-        String pnlJson = getIncomeStatementJson(ticker, apiKey);
+    public List<BalanceSheet> getBsList(String ticker, String apiKey) throws JsonProcessingException {
+        String bsJson = getBsJson(ticker, apiKey);
         return Stream.of(
-                        processReport(objectMapper.readTree(pnlJson).get("quarterlyReports"), ticker, "quarter"),
-                        processReport(objectMapper.readTree(pnlJson).get("annualReports"), ticker, "annual")
-                )
+                        processReport(objectMapper.readTree(bsJson).get("quarterlyReports"), ticker, "quarter"),
+                        processReport(objectMapper.readTree(bsJson).get("annualReports"), ticker, "annual"))
                 .parallel()
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
     }
 
-    private List<IncomeStatement> processReport(JsonNode report, String ticker, String type) {
+    private List<BalanceSheet> processReport(JsonNode report, String ticker, String type) {
         return StreamSupport.stream(report.spliterator(), true)
                 .parallel()
-                .map(pnlReport -> {
-                    IncomeStatement pnl;
+                .map(bsReport -> {
+                    BalanceSheet bs;
                     try {
-                        pnl = objectMapper.treeToValue(pnlReport, IncomeStatement.class);
-                        pnl.setType(type);
-                        pnl.setId(ticker + "PNL" + pnl.getFiscalDateEnding() + type);
-                        pnl.setTicker(ticker);
+                        bs = objectMapper.treeToValue(bsReport, BalanceSheet.class);
+                        bs.setType(type);
+                        bs.setId(ticker + "BS" + bs.getFiscalDateEnding() + type);
+                        bs.setTicker(ticker);
                     } catch (JsonProcessingException e) {
                         throw new RuntimeException(e);
                     }
-                    return pnl;
+                    return bs;
                 })
                 .collect(Collectors.toList());
     }
 
-    private String getIncomeStatementJson(String ticker, String apiKey) {
+    private String getBsJson(String ticker, String apiKey) {
         URI uri = URI.create(
-                "https://www.alphavantage.co/query?function=INCOME_STATEMENT&symbol=" +
+                "https://www.alphavantage.co/query?function=BALANCE_SHEET&symbol=" +
                         ticker + "&apikey="+apiKey);
         return httpRequestClient.getResponseBody(uri);
     }

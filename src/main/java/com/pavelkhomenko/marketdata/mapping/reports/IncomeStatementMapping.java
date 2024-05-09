@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.pavelkhomenko.marketdata.entity.CashFlow;
+import com.pavelkhomenko.marketdata.entity.IncomeStatement;
 import com.pavelkhomenko.marketdata.util.HttpRequestClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,47 +16,48 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 @Component
-public class CashFlowProcessing {
+public class IncomeStatementMapping {
     private final HttpRequestClient httpRequestClient;
     private final ObjectMapper objectMapper;
+
     @Autowired
-    public CashFlowProcessing(HttpRequestClient httpRequestClient) {
+    public IncomeStatementMapping(HttpRequestClient httpRequestClient) {
         this.httpRequestClient = httpRequestClient;
         this.objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
     }
 
-    public List<CashFlow> getCfList(String ticker, String apiKey) throws JsonProcessingException {
-        String pnlJson = getCfJson(ticker, apiKey);
+    public List<IncomeStatement> getPnlList(String ticker, String apiKey) throws JsonProcessingException {
+        String pnlJson = getIncomeStatementJson(ticker, apiKey);
         return Stream.of(
-                        processCf(objectMapper.readTree(pnlJson).get("quarterlyReports"), ticker, "quarter"),
-                        processCf(objectMapper.readTree(pnlJson).get("annualReports"), ticker, "annual")
+                        processReport(objectMapper.readTree(pnlJson).get("quarterlyReports"), ticker, "quarter"),
+                        processReport(objectMapper.readTree(pnlJson).get("annualReports"), ticker, "annual")
                 )
                 .parallel()
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
     }
 
-    private List<CashFlow> processCf(JsonNode report, String ticker, String type) {
+    private List<IncomeStatement> processReport(JsonNode report, String ticker, String type) {
         return StreamSupport.stream(report.spliterator(), true)
                 .parallel()
-                .map(cfReport -> {
-                    CashFlow cf;
+                .map(pnlReport -> {
+                    IncomeStatement pnl;
                     try {
-                        cf = objectMapper.treeToValue(cfReport, CashFlow.class);
-                        cf.setType(type);
-                        cf.setId(ticker + "CF" + cf.getFiscalDateEnding() + type);
-                        cf.setTicker(ticker);
+                        pnl = objectMapper.treeToValue(pnlReport, IncomeStatement.class);
+                        pnl.setType(type);
+                        pnl.setId(ticker + "PNL" + pnl.getFiscalDateEnding() + type);
+                        pnl.setTicker(ticker);
                     } catch (JsonProcessingException e) {
                         throw new RuntimeException(e);
                     }
-                    return cf;
+                    return pnl;
                 })
                 .collect(Collectors.toList());
     }
 
-    private String getCfJson(String ticker, String apiKey) {
+    private String getIncomeStatementJson(String ticker, String apiKey) {
         URI uri = URI.create(
-                "https://www.alphavantage.co/query?function=CASH_FLOW&symbol=" +
+                "https://www.alphavantage.co/query?function=INCOME_STATEMENT&symbol=" +
                         ticker + "&apikey="+apiKey);
         return httpRequestClient.getResponseBody(uri);
     }

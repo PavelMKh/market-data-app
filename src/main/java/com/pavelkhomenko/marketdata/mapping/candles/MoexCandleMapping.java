@@ -25,7 +25,7 @@ import java.util.stream.StreamSupport;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class MoexCandleProcessor {
+public class MoexCandleMapping {
     private final HttpRequestClient client;
 
     private String getCandlesJson(String ticker, int interval, LocalDate start, LocalDate end) {
