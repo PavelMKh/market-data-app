@@ -1,5 +1,6 @@
 package com.pavelkhomenko.marketdata.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.pavelkhomenko.marketdata.entity.Candle;
 import com.pavelkhomenko.marketdata.service.CandleHistoryService;
 import jakarta.validation.constraints.NotBlank;
@@ -36,7 +37,7 @@ public class CandlesController {
                                           @RequestParam("startdate") LocalDate startDate,
                                           @RequestParam("enddate") LocalDate endDate,
                                           @RequestParam("apikey") String apikey,
-                                          @PathVariable @NotBlank @NotEmpty String ticker) {
+                                          @PathVariable @NotBlank @NotEmpty String ticker) throws JsonProcessingException {
         return ResponseEntity.ok()
                 .body(candleHistoryService.getAlphaVantageCandles(ticker, interval, apikey, startDate, endDate));
     }
@@ -77,7 +78,7 @@ public class CandlesController {
                                                  @RequestParam("startdate") LocalDate startDate,
                                                  @RequestParam("enddate") LocalDate endDate,
                                                  @RequestParam("apikey") String apikey,
-                                                 @PathVariable @NotBlank @NotEmpty String ticker) {
+                                                 @PathVariable @NotBlank @NotEmpty String ticker) throws JsonProcessingException {
         String fileName = String.format("%s_%s_%s_%s.csv", ticker, interval, startDate, endDate);
         InputStreamResource file = new InputStreamResource(candleHistoryService.loadFromAlphaVantageToCsv(ticker,
                 interval, apikey, startDate, endDate));
@@ -99,5 +100,12 @@ public class CandlesController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)
                 .contentType(MediaType.parseMediaType("application/csv"))
                 .body(file);
+    }
+
+    @GetMapping("/global/shares/daily/{ticker}")
+    public ResponseEntity<List<Candle>> getDailyCandles(@PathVariable @NotBlank @NotEmpty String ticker,
+                                                        @RequestParam("apikey") String apikey) throws JsonProcessingException {
+        return ResponseEntity.ok()
+                .body(candleHistoryService.getDailyCandles(ticker, apikey));
     }
 }

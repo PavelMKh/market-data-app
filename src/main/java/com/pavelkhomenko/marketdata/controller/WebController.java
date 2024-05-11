@@ -1,5 +1,6 @@
 package com.pavelkhomenko.marketdata.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.pavelkhomenko.marketdata.entity.Candle;
 import com.pavelkhomenko.marketdata.service.CandleHistoryService;
 import lombok.NonNull;
@@ -57,7 +58,7 @@ public class WebController {
                                            @RequestParam("candlesize") int interval,
                                            @RequestParam("startdate") @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate start,
                                            @RequestParam("enddate") @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate end,
-                                                   @RequestParam(name = "apikey") @NonNull String apiKey) {
+                                                   @RequestParam(name = "apikey") @NonNull String apiKey) throws JsonProcessingException {
         List<Candle> candles = candleHistoryService.getAlphaVantageCandles(ticker, interval, apiKey, start, end);
         model.addAttribute("ticker", ticker);
         model.addAttribute("candles", candles);
@@ -132,7 +133,7 @@ public class WebController {
                                @RequestParam("startdate") LocalDate startDate,
                                @RequestParam("enddate") LocalDate endDate,
                                @RequestParam("apikey") String apikey,
-                               @RequestParam("ticker") String ticker) {
+                               @RequestParam("ticker") String ticker) throws JsonProcessingException {
         String fileName = String.format("%s_%s_%s_%s.csv", ticker, interval, startDate, endDate);
         InputStreamResource file = new InputStreamResource(candleHistoryService.loadFromAlphaVantageToCsv(ticker,
                 interval, apikey, startDate, endDate));

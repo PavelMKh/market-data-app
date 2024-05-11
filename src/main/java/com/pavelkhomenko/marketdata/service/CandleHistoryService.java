@@ -1,5 +1,6 @@
 package com.pavelkhomenko.marketdata.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.pavelkhomenko.marketdata.Constants;
 import com.pavelkhomenko.marketdata.mapping.candles.AlphaVantageCandleMapping;
 import com.pavelkhomenko.marketdata.mapping.candles.MoexCandleMapping;
@@ -12,6 +13,7 @@ import com.pavelkhomenko.marketdata.util.CsvFileGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.ByteArrayInputStream;
 import java.time.*;
@@ -28,8 +30,9 @@ public class CandleHistoryService {
     private final CandleRepository candleRepository;
     private final CsvFileGenerator csvFileGenerator;
 
+    @Transactional
     public List<Candle> getAlphaVantageCandles(String ticker, int interval, String apikey,
-                                              LocalDate start, LocalDate end) {
+                                              LocalDate start, LocalDate end) throws JsonProcessingException {
         log.info("Candle history from AlphaVantage requested: ticker - " + ticker +
                 " interval - " + interval + " start date - " + start +
                 " end date - " + end);
@@ -38,14 +41,12 @@ public class CandleHistoryService {
         }
         if (!Constants.ALPHA_VANTAGE_CANDLE_SIZE.contains(interval)) {
             throw new IncorrectCandleSizeException("The candle size is not valid. Valid values: " +
-                    "1 (1 minute), 5 (5 minutes), 15 (1 minutes), 30 (30 minutes), 60 (60 minutes)");
+                    "1 (1 minute), 5 (5 minutes), 15 (1 minutes), 30 (30 minutes), 60 (60 minutes), 24 (daily)");
         }
         if (ticker.isEmpty() || ticker.isBlank()) {
             throw new IncorrectTickerNameException("Ticker can't be empty or blank");
         }
-        List<Candle> candles = requestAlphaVantageProcessor.getCandleSet(ticker, interval, apikey, start, end);
-        candleRepository.saveAll(candles);
-        return candles;
+        return getIntradayCandles(ticker, interval, apikey, start, end);
     }
 
     public List<Candle> getMoexCandles(String ticker, int interval, LocalDate start,
@@ -72,6 +73,7 @@ public class CandleHistoryService {
         return requestMoexProcessor.getCandleSet(ticker, interval, start, end);
     }
 
+    @Transactional(readOnly = true)
     public List<Candle> getCandlesFromDatabase(String ticker, int interval, String start,
                                                String end) {
         log.info("Candle history from Database requested: ticker - " + ticker +
@@ -121,7 +123,8 @@ public class CandleHistoryService {
                                                           int interval,
                                                           String apikey,
                                                           LocalDate start,
-                                                          LocalDate end) {
+                                                          LocalDate end)
+            throws JsonProcessingException {
         log.info("AlphaVantage candle history CSV file requested: ticker - " + ticker +
                 " interval - " + interval + " start date - " + start +
                 " end date - " + end);
@@ -138,6 +141,19 @@ public class CandleHistoryService {
                 " end date - " + end);
         List<Candle> candles = getCandlesFromDatabase(ticker, interval, start, end);
         return csvFileGenerator.writeCandlesToCsv(candles);
+    }
+
+    public List<Candle> getDailyCandles(String ticker, String apikey) throws JsonProcessingException {
+        List<Candle> candles = requestAlphaVantageProcessor.getDailyCandles(ticker, apikey);
+        candleRepository.saveAll(candles);
+        return candles;
+    }
+
+    private List<Candle> getIntradayCandles(String ticker, int interval, String apikey,
+                                            LocalDate start, LocalDate end) {
+        List<Candle> candles = requestAlphaVantageProcessor.getCandleSet(ticker, interval, apikey, start, end);
+        candleRepository.saveAll(candles);
+        return candles;
     }
 
     private OffsetDateTime convertStringToOffsetDateTime(String date) {

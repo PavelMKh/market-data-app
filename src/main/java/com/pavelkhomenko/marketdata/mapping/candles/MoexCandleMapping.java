@@ -27,6 +27,7 @@ import java.util.stream.StreamSupport;
 @RequiredArgsConstructor
 public class MoexCandleMapping {
     private final HttpRequestClient client;
+    private final CandleBuilder candleBuilder;
 
     private String getCandlesJson(String ticker, int interval, LocalDate start, LocalDate end) {
         URI candlesUri = URI.create("https://iss.moex.com/iss/engines/stock/markets/shares/boards/TQBR/securities/" +
@@ -49,29 +50,13 @@ public class MoexCandleMapping {
             }
             if (!candlesJson.isNull()) {
                 List<Candle> jsonCandlesList = StreamSupport.stream(candlesJson.spliterator(), true)
-                        .map(element -> buildCandleFromJson(element, ticker, interval))
+                        .map(element -> candleBuilder.buildCandleFromJsonMoex(element, ticker, interval))
                         .toList();
                 stockCandles.addAll(jsonCandlesList);
             }
         });
         stockCandles.sort(Comparator.comparing(Candle::getStartDateTime));
         return stockCandles;
-    }
-
-    private Candle buildCandleFromJson(JsonNode jsonCandle, String ticker, int interval) {
-        return Candle.builder()
-                .startDateTime(OffsetDateTime.of(LocalDateTime.parse(jsonCandle.get(6).asText(), Constants.CANDLES_DATETIME_FORMATTER),
-                        ZoneOffset.UTC))
-                .open(Float.parseFloat(jsonCandle.get(0).asText()))
-                .max(Float.parseFloat(jsonCandle.get(2).asText()))
-                .min(Float.parseFloat(jsonCandle.get(3).asText()))
-                .close(Float.parseFloat(jsonCandle.get(1).asText()))
-                .volume(Float.parseFloat(jsonCandle.get(5).asText()))
-                .source("MOEX")
-                .interval(interval)
-                .ticker(ticker)
-                .id(LocalDateTime.parse(jsonCandle.get(6).asText(), Constants.CANDLES_DATETIME_FORMATTER) + ticker + interval)
-                .build();
     }
 
     /* Data can be requested if interval doesn't exceed 100 days

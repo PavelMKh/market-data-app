@@ -8,6 +8,7 @@ App supports saving and loading data from a local MongoDB database. To use the f
 - Stock prices history from MOEX ISS (https://www.moex.com/a2193)
 - Historic candles from AlphaVantage (https://www.alphavantage.co/)
 - Financial reports from AlphaVantage: income statement, balance sheet, cash flow statement
+- Commodity prices: Crude Oil, Natural Gas, Copper, Aluminium, Wheat, Corn, Cotton, Sugar, Coffee 
 - Saving data to a local repository (PostgreSQL)
 - Calculation of analytical indicators
 - Uploading data for all tickers in your database from the last date to the current one (from MOEX only)
@@ -19,9 +20,10 @@ App supports saving and loading data from a local MongoDB database. To use the f
 ### 1. Historic candles  
 Server endpoint:
 ```java
-GET /moex/shares/[ticker]/history // from MOEX ISS
-GET /global/shares/[ticker]/history // from AlphaVantage
-GET /repo/shares/[ticker]/history // history from database
+GET /api/moex/shares/[ticker]/history // from MOEX ISS
+GET /api/global/shares/[ticker]/history // from AlphaVantage
+GET /api/commodity/[commodity]/history // commodity price
+GET /api/repo/shares/[ticker]/history // history from database
 ```
 Request parameters:
 * `ticker` - stock ticker
