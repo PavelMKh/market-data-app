@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS candles_history (
                                       volume BIGINT
 );
 CREATE TABLE IF NOT EXISTS commodities (
-                                    id varchar(20) NOT NULL,
+                                    id varchar(40) NOT NULL,
                                     "name" varchar(15) NOT NULL,
                                     "date" date NOT NULL,
                                     interval varchar(10) not null,

@@ -13,4 +13,8 @@ public class Constants {
     public static final DateTimeFormatter CANDLES_DATETIME_FORMATTER =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneOffset.UTC);
     public static final int FREE_API_LIMITATION = 24;
+
+    public static final Set<String> ALLOWED_COMMODITIES_NAME = new HashSet<>(Set.of("WTI", "BRENT",
+            "NATURAL_GAS", "COOPER", "ALUMINUM", "WHEAT", "CORN", "COTTON",
+            "SUGAR", "COFFEE", "ALL_COMMODITIES"));
 }

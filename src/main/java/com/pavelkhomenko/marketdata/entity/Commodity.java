@@ -19,7 +19,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Commodity {
     @Id
-    @Column(length = 20)
+    @Column(length = 40)
     @JsonIgnore
     @NotNull
     private String id;
